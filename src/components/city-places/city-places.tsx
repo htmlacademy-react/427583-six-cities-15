@@ -1,6 +1,6 @@
 import { Offer } from '../../common/types';
-import Map from '../map/map';
-import PlaceCard from '../place-card/place-card';
+import Map from '../map';
+import PlaceCard from '../place-card';
 
 type Props = {
   offers: Offer[];

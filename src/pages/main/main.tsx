@@ -1,10 +1,10 @@
 import cn from 'classnames';
 
 import { Offer } from '../../common/types';
-import CityPlaces from '../../components/city-places/city-places';
-import CityPlacesEmpty from '../../components/city-places-empty/city-places-empty';
-import Header from '../../components/header/header';
-import LocationsTabs from '../../components/locations-tabs/locations-tabs';
+import CityPlaces from '../../components/city-places';
+import CityPlacesEmpty from '../../components/city-places-empty';
+import Header from '../../components/header';
+import LocationsTabs from '../../components/locations-tabs';
 
 
 type Props = {

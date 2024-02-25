@@ -1,5 +1,5 @@
 import { Offer } from './common/types';
-import Main from './pages/main/main';
+import Main from './pages/main';
 
 type Props = {
   offers: Offer[];

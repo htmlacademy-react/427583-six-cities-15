@@ -1,7 +1,7 @@
 import { Offer } from '../../common/types';
-import Footer from '../../components/footer/footer';
-import Header from '../../components/header/header';
-import PlaceCard from '../../components/place-card/place-card';
+import Footer from '../../components/footer';
+import Header from '../../components/header';
+import PlaceCard from '../../components/place-card';
 import { mockFavorites } from '../../mocks/mocks';
 
 
