@@ -1,12 +1,12 @@
-import { Offer } from '../../common/types';
+import { TOffer } from '../../common/types';
 import Map from '../map';
 import PlaceCard from '../place-card';
 
-type Props = {
-  offers: Offer[];
+type TProps = {
+  offers: TOffer[];
 }
 
-const CityPlaces = ({ offers }: Props) => (
+const CityPlaces = ({ offers }: TProps) => (
   <div className="cities">
     <div className="cities__places-container container">
       <section className="cities__places places">
@@ -28,7 +28,7 @@ const CityPlaces = ({ offers }: Props) => (
           </ul>
         </form>
         <div className="cities__places-list places__list tabs__content">
-          {offers.map((offer: Offer) => (<PlaceCard {...offer} key={offer.id} />))}
+          {offers.map((offer: TOffer) => (<PlaceCard {...offer} key={offer.id} />))}
         </div>
       </section>
       <div className="cities__right-section">

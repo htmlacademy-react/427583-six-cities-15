@@ -1,22 +1,22 @@
 import cn from 'classnames';
 
-import { OfferType } from '../../common/types';
+import { TOfferType } from '../../common/types';
 import { getRatingWidth } from '../../utils/utils';
 
-type Verion = 'primary' | 'secondary';
+type TVersion = 'primary' | 'secondary';
 
-type Props = {
+type TProps = {
   title: string;
-  type: OfferType;
+  type: TOfferType;
   price: number;
   previewImage: string;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  version?: Verion;
+  version?: TVersion;
 }
 
-const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: Props) => {
+const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
   const definingClass = version === 'primary' ? 'cities' : 'favorites';
 
   return (

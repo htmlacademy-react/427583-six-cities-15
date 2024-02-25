@@ -1,11 +1,11 @@
-import { Offer } from '../../common/types';
+import { TOffer } from '../../common/types';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import PlaceCard from '../../components/place-card';
 import { mockFavorites } from '../../mocks/mocks';
 
 
-const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: Offer[] }, offer: Offer) => {
+const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: TOffer[] }, offer: TOffer) => {
   if (offersList[offer.city.name]) {
     offersList[offer.city.name].push(offer);
   } else {
@@ -33,7 +33,7 @@ const Favorites = () => (
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoritesByCity[city].map(({ id, title, type, price, previewImage, isFavorite, isPremium, rating }: Offer) => (
+                  {favoritesByCity[city].map(({ id, title, type, price, previewImage, isFavorite, isPremium, rating }: TOffer) => (
                     <PlaceCard
                       key={id}
                       title={title}

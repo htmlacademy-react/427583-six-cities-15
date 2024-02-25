@@ -1,17 +1,17 @@
 import cn from 'classnames';
 
-import { Offer } from '../../common/types';
+import { TOffer } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
 import Header from '../../components/header';
 import LocationsTabs from '../../components/locations-tabs';
 
 
-type Props = {
-  offers: Offer[];
+type TProps = {
+  offers: TOffer[];
 }
 
-const Main = ({ offers }: Props) => {
+const Main = ({ offers }: TProps) => {
   const hasOffers = offers.length > 0;
 
   const pageMainClasses = cn([
