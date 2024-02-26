@@ -34,16 +34,10 @@ const Favorites = () => (
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoritesByCity[city].map(({ id, title, type, price, previewImage, isFavorite, isPremium, rating }: TOffer) => (
+                  {favoritesByCity[city].map((offer) => (
                     <PlaceCard
-                      key={id}
-                      title={title}
-                      type={type}
-                      price={price}
-                      previewImage={previewImage}
-                      isFavorite={isFavorite}
-                      isPremium={isPremium}
-                      rating={rating}
+                      key={offer.id}
+                      {...offer}
                       version="secondary"
                     />
                   ))}
