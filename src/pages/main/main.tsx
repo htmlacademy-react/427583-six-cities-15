@@ -1,5 +1,6 @@
 import cn from 'classnames';
 
+import { AuthorizationStatus } from '../../common/const';
 import { TOffer } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
@@ -30,7 +31,7 @@ const Main = ({ offers }: TProps) => {
 
   return (
     <div className="page page--gray page--main">
-      <Header />
+      <Header authorizationStatus={AuthorizationStatus.Auth} />
       <main className={pageMainClasses}>
         <h1 className="visually-hidden">Cities</h1>
         <LocationsTabs />

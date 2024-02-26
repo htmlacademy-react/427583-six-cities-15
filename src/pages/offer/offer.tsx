@@ -1,8 +1,9 @@
+import { AuthorizationStatus } from '../../common/const';
 import Header from '../../components/header';
 
 const Offer = () => (
   <div className="page">
-    <Header />
+    <Header authorizationStatus={AuthorizationStatus.Auth} />
 
     <main className="page__main page__main--offer">
       <section className="offer">

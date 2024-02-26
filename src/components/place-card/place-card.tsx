@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 
 import { TOfferType } from '../../common/types';
 import { getRatingWidth } from '../../utils/utils';
@@ -6,6 +7,7 @@ import { getRatingWidth } from '../../utils/utils';
 type TVersion = 'primary' | 'secondary';
 
 type TProps = {
+  id: string;
   title: string;
   type: TOfferType;
   price: number;
@@ -16,7 +18,7 @@ type TProps = {
   version?: TVersion;
 }
 
-const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
+const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
   const definingClass = version === 'primary' ? 'cities' : 'favorites';
 
   return (
@@ -65,7 +67,7 @@ const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, ra
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
