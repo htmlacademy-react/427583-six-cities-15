@@ -1,11 +1,12 @@
-import { Offer } from '../../common/types';
-import Footer from '../../components/footer/footer';
-import Header from '../../components/header/header';
-import PlaceCard from '../../components/place-card/place-card';
+import { AuthorizationStatus } from '../../common/const';
+import { TOffer } from '../../common/types';
+import Footer from '../../components/footer';
+import Header from '../../components/header';
+import PlaceCard from '../../components/place-card';
 import { mockFavorites } from '../../mocks/mocks';
 
 
-const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: Offer[] }, offer: Offer) => {
+const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: TOffer[] }, offer: TOffer) => {
   if (offersList[offer.city.name]) {
     offersList[offer.city.name].push(offer);
   } else {
@@ -16,7 +17,7 @@ const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: Offer[]
 
 const Favorites = () => (
   <div className="page">
-    <Header />
+    <Header authorizationStatus={AuthorizationStatus.Auth} />
 
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
@@ -33,16 +34,10 @@ const Favorites = () => (
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoritesByCity[city].map(({ id, title, type, price, previewImage, isFavorite, isPremium, rating }: Offer) => (
+                  {favoritesByCity[city].map((offer) => (
                     <PlaceCard
-                      key={id}
-                      title={title}
-                      type={type}
-                      price={price}
-                      previewImage={previewImage}
-                      isFavorite={isFavorite}
-                      isPremium={isPremium}
-                      rating={rating}
+                      key={offer.id}
+                      {...offer}
                       version="secondary"
                     />
                   ))}

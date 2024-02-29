@@ -1,25 +1,25 @@
 
-export type Location = {
+export type TLocation = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
 
-export type OfferCity = {
+export type TOfferCity = {
   name: string;
-  location: Location;
+  location: TLocation;
 }
 
-export type OfferType = 'apartment' | 'room' | 'house' | 'hotel';
+export type TOfferType = 'apartment' | 'room' | 'house' | 'hotel';
 
-export type Offer = {
+export type TOffer = {
   id: string;
   title: string;
-  type: OfferType;
+  type: TOfferType;
   price: number;
   previewImage: string;
-  city: OfferCity;
-  location?: Location;
+  city: TOfferCity;
+  location?: TLocation;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;

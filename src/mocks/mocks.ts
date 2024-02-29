@@ -1,6 +1,6 @@
-import { Offer } from '../common/types';
+import { TOffer } from '../common/types';
 
-export const mockOffers: Offer[] = [
+export const mockOffers: TOffer[] = [
   {
     'id': '854bbd80-6ba5-4c41-a0e1-6fc8b5c4fad4',
     'title': 'The Pondhouse - A Magical Place',
@@ -118,7 +118,7 @@ export const mockOffers: Offer[] = [
   },
 ];
 
-export const mockFavorites: Offer[] = [
+export const mockFavorites: TOffer[] = [
   {
     'id': 'ea3de8c9-1806-4c32-8940-9d028d5ea95d',
     'title': 'The Joshua Tree House',

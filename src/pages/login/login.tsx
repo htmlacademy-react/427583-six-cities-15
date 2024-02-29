@@ -1,4 +1,4 @@
-import Logo from '../../components/logo/logo';
+import Logo from '../../components/logo';
 
 const Login = () => (
   <div className="page page--gray page--login">

@@ -1,22 +1,24 @@
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 
-import { OfferType } from '../../common/types';
+import { TOfferType } from '../../common/types';
 import { getRatingWidth } from '../../utils/utils';
 
-type Verion = 'primary' | 'secondary';
+type TVersion = 'primary' | 'secondary';
 
-type Props = {
+type TProps = {
+  id: string;
   title: string;
-  type: OfferType;
+  type: TOfferType;
   price: number;
   previewImage: string;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  version?: Verion;
+  version?: TVersion;
 }
 
-const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: Props) => {
+const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
   const definingClass = version === 'primary' ? 'cities' : 'favorites';
 
   return (
@@ -65,7 +67,7 @@ const PlaceCard = ({ title, type, price, previewImage, isFavorite, isPremium, ra
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
