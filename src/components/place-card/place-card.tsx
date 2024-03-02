@@ -20,6 +20,7 @@ type TProps = {
 
 const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
   const definingClass = version === 'primary' ? 'cities' : 'favorites';
+  const linkToRoute = `/offer/${id}`;
 
   return (
     <article className={cn(`${definingClass}__card`, 'place-card')}>
@@ -31,9 +32,9 @@ const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium
       <div
         className={cn(`${definingClass}__image-wrapper`, 'place-card__image-wrapper')}
       >
-        <a href="#">
+        <Link to={linkToRoute}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place previewImage" />
-        </a>
+        </Link>
       </div>
       <div
         className={cn({
@@ -67,7 +68,7 @@ const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer/${id}`}>{title}</Link>
+          <Link to={linkToRoute}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
