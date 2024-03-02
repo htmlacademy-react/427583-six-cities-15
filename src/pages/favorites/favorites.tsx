@@ -3,10 +3,10 @@ import { TOffer } from '../../common/types';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import PlaceCard from '../../components/place-card';
-import { mockFavorites } from '../../mocks/mocks';
+import { mockOffers } from '../../mocks/mocks';
 
 
-const favoritesByCity = mockFavorites.reduce((offersList: { [K: string]: TOffer[] }, offer: TOffer) => {
+const favoritesByCity = mockOffers.reduce((offersList: { [K: string]: TOffer[] }, offer: TOffer) => {
   if (offersList[offer.city.name]) {
     offersList[offer.city.name].push(offer);
   } else {
