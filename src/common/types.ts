@@ -25,3 +25,16 @@ export type TOffer = {
   rating: number;
 }
 
+export type TCity = {
+  name: string;
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
+export type TPoint = {
+  id: string;
+  latitude: number;
+  longitude: number;
+};
+
