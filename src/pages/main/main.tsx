@@ -1,6 +1,7 @@
 import cn from 'classnames';
+import { useState } from 'react';
 
-import { AuthorizationStatus } from '../../common/const';
+import { AuthorizationStatus, TCityName } from '../../common/const';
 import { TOffer } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
@@ -14,6 +15,7 @@ type TProps = {
 
 const Main = ({ offers }: TProps) => {
   const hasOffers = offers.length > 0;
+  const [selectedCity, setSelectedCity] = useState<TCityName>('Amsterdam');
 
   const pageMainClasses = cn([
     'page__main',
@@ -21,12 +23,16 @@ const Main = ({ offers }: TProps) => {
     hasOffers ? 'page__main--index-empty' : ''
   ]);
 
+  const handleCityChange = (city: TCityName) => {
+    setSelectedCity(city);
+  };
+
   const renderCityPlaces = () => {
     if (!hasOffers) {
       return <CityPlacesEmpty />;
     }
 
-    return <CityPlaces offers={offers} />;
+    return <CityPlaces offers={offers} selectedCity={selectedCity} />;
   };
 
   return (
@@ -34,7 +40,7 @@ const Main = ({ offers }: TProps) => {
       <Header authorizationStatus={AuthorizationStatus.Auth} />
       <main className={pageMainClasses}>
         <h1 className="visually-hidden">Cities</h1>
-        <LocationsTabs />
+        <LocationsTabs onCityChange={handleCityChange} />
         {renderCityPlaces()}
       </main>
     </div>

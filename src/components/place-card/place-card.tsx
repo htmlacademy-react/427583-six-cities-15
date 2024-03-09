@@ -16,14 +16,38 @@ type TProps = {
   isPremium: boolean;
   rating: number;
   version?: TVersion;
+  onSelect: (title: string) => void;
 }
 
-const PlaceCard = ({ id, title, type, price, previewImage, isFavorite, isPremium, rating, version = 'primary' }: TProps) => {
+const PlaceCard = ({
+  id,
+  title,
+  type,
+  price,
+  previewImage,
+  isFavorite,
+  isPremium,
+  rating,
+  version = 'primary',
+  onSelect
+}: TProps) => {
   const definingClass = version === 'primary' ? 'cities' : 'favorites';
   const linkToRoute = `/offer/${id}`;
 
+  const handleCardHover = () => {
+    onSelect(id);
+  };
+
+  const handleMouseLeave = () => {
+    onSelect('');
+  };
+
   return (
-    <article className={cn(`${definingClass}__card`, 'place-card')}>
+    <article
+      className={cn(`${definingClass}__card`, 'place-card')}
+      onMouseEnter={handleCardHover}
+      onMouseLeave={handleMouseLeave}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
