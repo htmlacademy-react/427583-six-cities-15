@@ -16,7 +16,7 @@ type TProps = {
   isPremium: boolean;
   rating: number;
   version?: TVersion;
-  onSelect: (title: string) => void;
+  onSelect?: (title: string) => void;
 }
 
 const PlaceCard = ({
@@ -35,11 +35,15 @@ const PlaceCard = ({
   const linkToRoute = `/offer/${id}`;
 
   const handleCardHover = () => {
-    onSelect(id);
+    if (onSelect) {
+      onSelect(id);
+    }
   };
 
   const handleMouseLeave = () => {
-    onSelect('');
+    if (onSelect) {
+      onSelect('');
+    }
   };
 
   return (
