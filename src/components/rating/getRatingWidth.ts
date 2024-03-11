@@ -1,4 +1,4 @@
-export const getRatingWidth = (rating: number) => {
+const getRatingWidth = (rating: number) => {
   switch (true) {
     case (rating >= 1 && rating < 2):
       return 20;
@@ -14,3 +14,5 @@ export const getRatingWidth = (rating: number) => {
       return 0;
   }
 };
+
+export default getRatingWidth;

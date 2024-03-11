@@ -25,9 +25,10 @@ type TProps = {
   city: TCity;
   points: TPoint[];
   selectedPointId?: string;
+  className?: string;
 }
 
-const Map = ({ city, points, selectedPointId }: TProps) => {
+const Map = ({ city, points, selectedPointId, className }: TProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city);
   const markersLayer = useRef<LayerGroup>(layerGroup());
@@ -54,7 +55,7 @@ const Map = ({ city, points, selectedPointId }: TProps) => {
   }, [map, points, selectedPointId, city]); //TODO:city можно будет удалить из зависимостей, когда появятся points других городов
 
   return (
-    <section className="cities__map" ref={mapRef} />
+    <section className={className} ref={mapRef} />
   );
 };
 

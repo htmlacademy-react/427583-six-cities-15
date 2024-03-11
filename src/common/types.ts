@@ -38,3 +38,16 @@ export type TPoint = {
   longitude: number;
 };
 
+export type TUser = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type TUserReview = {
+  id: string;
+  comment: string;
+  date: string;
+  rating: number;
+  user: TUser;
+}
