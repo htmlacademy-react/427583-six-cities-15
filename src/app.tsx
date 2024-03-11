@@ -31,7 +31,7 @@ const App = ({ offers }: TProps) => (
         </PrivateRoute>
       )}
       />
-      < Route path={AppRoute.Offer} element={<Offer authorizationStatus={authorizationStatus} />} />
+      <Route path={AppRoute.Offer} element={<Offer authorizationStatus={authorizationStatus} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

@@ -38,7 +38,7 @@ const Favorites = () => (
                     <PlaceCard
                       key={offer.id}
                       {...offer}
-                      version="secondary"
+                      variant="favorites"
                     />
                   ))}
                 </div>

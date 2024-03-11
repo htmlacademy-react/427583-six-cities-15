@@ -2,9 +2,27 @@ import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { TOfferType } from '../../common/types';
-import { getRatingWidth } from '../../utils/utils';
+import Rating from '../rating';
 
-type TVersion = 'primary' | 'secondary';
+type TVariant = 'cities' | 'favorites' | 'near-places';
+
+const cardVariant = {
+  cities: {
+    card: 'cities__card',
+    image: 'cities__image-wrapper',
+    info: '',
+  },
+  favorites: {
+    card: 'favorites__card',
+    image: 'favorites__image-wrapper',
+    info: 'favorites__card-info',
+  },
+  ['near-places']: {
+    card: 'near-places__card',
+    image: 'near-places__image-wrapper',
+    info: '',
+  }
+};
 
 type TProps = {
   id: string;
@@ -15,7 +33,7 @@ type TProps = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  version?: TVersion;
+  variant?: TVariant;
   onSelect?: (title: string) => void;
 }
 
@@ -28,10 +46,9 @@ const PlaceCard = ({
   isFavorite,
   isPremium,
   rating,
-  version = 'primary',
+  variant = 'cities',
   onSelect
 }: TProps) => {
-  const definingClass = version === 'primary' ? 'cities' : 'favorites';
   const linkToRoute = `/offer/${id}`;
 
   const handleCardHover = () => {
@@ -48,7 +65,7 @@ const PlaceCard = ({
 
   return (
     <article
-      className={cn(`${definingClass}__card`, 'place-card')}
+      className={cn(cardVariant[variant].card, 'place-card')}
       onMouseEnter={handleCardHover}
       onMouseLeave={handleMouseLeave}
     >
@@ -57,19 +74,12 @@ const PlaceCard = ({
           <span>Premium</span>
         </div>
       )}
-      <div
-        className={cn(`${definingClass}__image-wrapper`, 'place-card__image-wrapper')}
-      >
+      <div className={cn(cardVariant[variant].image, 'place-card__image-wrapper')}>
         <Link to={linkToRoute}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place previewImage" />
         </Link>
       </div>
-      <div
-        className={cn({
-          'favorites__card-info': version === 'secondary',
-          'place-card__info': true,
-        })}
-      >
+      <div className={cn(cardVariant[variant].info, 'place-card__info')}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -90,10 +100,7 @@ const PlaceCard = ({
           </button>
         </div>
         <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{ width: `${getRatingWidth(rating)}%` }}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
+          <Rating className="place-card__stars" rating={rating} />
         </div>
         <h2 className="place-card__name">
           <Link to={linkToRoute}>{title}</Link>

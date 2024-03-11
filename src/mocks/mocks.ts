@@ -1,4 +1,4 @@
-import { TOffer } from '../common/types';
+import { TOffer, TUserReview } from '../common/types';
 
 export const mockPoints = [
   {
@@ -116,4 +116,29 @@ export const mockOffers: TOffer[] = [
     'isPremium': false,
     'rating': 3.4
   },
+];
+
+export const mockUserReviews: TUserReview[] = [
+  {
+    'id': '2c31d812-7902-4f30-8ebd-482360374779',
+    'comment': 'Beautiful space, fantastic location and atmosphere, really a wonderful place to spend a few days. Will be back.',
+    'date': '2024-02-15T21:00:00.295Z',
+    'rating': 4,
+    'user': {
+      'name': 'Isaac',
+      'avatarUrl': 'https://15.design.htmlacademy.pro/static/avatar/4.jpg',
+      'isPro': true
+    }
+  },
+  {
+    'id': '2c31d812-7902-4f30-8ebd-482360374779',
+    'comment': 'Not beautiful space, unfantastic location and non-atmosphere, really an awful place to spend a few days. Will not be back.',
+    'date': '2023-01-15T21:00:00.295Z',
+    'rating': 1,
+    'user': {
+      'name': 'Clark',
+      'avatarUrl': 'https://15.design.htmlacademy.pro/static/avatar/4.jpg',
+      'isPro': true
+    }
+  }
 ];
