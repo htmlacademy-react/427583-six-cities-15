@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from './common/const';
-import { TOffer } from './common/types';
 import PrivateRoute from './components/private-route';
 import Favorites from './pages/favorites';
 import Login from './pages/login';
@@ -11,14 +10,10 @@ import Offer from './pages/offer';
 
 const authorizationStatus = AuthorizationStatus.Auth;
 
-type TProps = {
-  offers: TOffer[];
-}
-
-const App = ({ offers }: TProps) => (
+const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path={AppRoute.Main} element={<Main offers={offers} />} />
+      <Route path={AppRoute.Main} element={<Main />} />
       <Route path={AppRoute.Login} element={(
         <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
           <Login />

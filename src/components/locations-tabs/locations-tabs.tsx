@@ -1,18 +1,16 @@
 import cn from 'classnames';
-import { useState } from 'react';
 
-import { CITIES, TCityName } from '../../common/const';
-
+import { CITIES } from '../../common/const';
+import { TCityName } from '../../common/types';
 
 type TProps = {
+  selectedCity: TCityName;
   onCityChange: (city: TCityName) => void;
 }
 
-const LocationsTabs = ({ onCityChange }: TProps) => {
-  const [selectedCity, setSelectedCity] = useState<TCityName>('Amsterdam');
 
+const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
   const handleCityChange = (city: TCityName) => {
-    setSelectedCity(city);
     onCityChange(city);
   };
 

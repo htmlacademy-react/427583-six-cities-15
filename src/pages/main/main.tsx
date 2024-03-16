@@ -1,21 +1,30 @@
 import cn from 'classnames';
-import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { AuthorizationStatus, TCityName } from '../../common/const';
-import { TOffer } from '../../common/types';
+import { AuthorizationStatus } from '../../common/const';
+import { TCityName } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
 import Header from '../../components/header';
 import LocationsTabs from '../../components/locations-tabs';
+import useAppDispatch from '../../hooks/use-app-dispatch';
+import useAppSelector from '../../hooks/use-app-selector';
+import { mockOffers } from '../../mocks/mocks';
+import { selectCity, selectOffers } from '../../store/offers/offers.selectors';
+import { setCity, setOffers } from '../../store/offers/offers.slice';
 
 
-type TProps = {
-  offers: TOffer[];
-}
+const Main = () => {
+  const dispath = useAppDispatch();
 
-const Main = ({ offers }: TProps) => {
+  const offers = useAppSelector(selectOffers);
+  const currentCity = useAppSelector(selectCity);
+
+  useEffect(() => {
+    dispath(setOffers(mockOffers));
+  }, [dispath]);
+
   const hasOffers = offers.length > 0;
-  const [selectedCity, setSelectedCity] = useState<TCityName>('Amsterdam');
 
   const pageMainClasses = cn([
     'page__main',
@@ -24,7 +33,7 @@ const Main = ({ offers }: TProps) => {
   ]);
 
   const handleCityChange = (city: TCityName) => {
-    setSelectedCity(city);
+    dispath(setCity(city));
   };
 
   const renderCityPlaces = () => {
@@ -32,7 +41,7 @@ const Main = ({ offers }: TProps) => {
       return <CityPlacesEmpty />;
     }
 
-    return <CityPlaces offers={offers} selectedCity={selectedCity} />;
+    return <CityPlaces offers={offers} selectedCity={currentCity} />;
   };
 
   return (
@@ -40,7 +49,10 @@ const Main = ({ offers }: TProps) => {
       <Header authorizationStatus={AuthorizationStatus.Auth} />
       <main className={pageMainClasses}>
         <h1 className="visually-hidden">Cities</h1>
-        <LocationsTabs onCityChange={handleCityChange} />
+        <LocationsTabs
+          selectedCity={currentCity}
+          onCityChange={handleCityChange}
+        />
         {renderCityPlaces()}
       </main>
     </div>
