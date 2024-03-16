@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { CITIES, TCityName } from '../../common/const';
-import { TOffer } from '../../common/types';
+import { CITIES } from '../../common/const';
+import { TCityName, TOffer } from '../../common/types';
 import { mockPoints } from '../../mocks/mocks';
 import Map from '../map';
 import PlaceCard from '../place-card';

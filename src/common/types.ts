@@ -51,3 +51,14 @@ export type TUserReview = {
   rating: number;
   user: TUser;
 }
+
+export type TCityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
+
+export type TCities = {
+  [K in TCityName]: {
+    name: TCityName;
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+};
