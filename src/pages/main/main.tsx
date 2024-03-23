@@ -1,27 +1,29 @@
 import cn from 'classnames';
 import { useEffect } from 'react';
 
-import { AuthorizationStatus } from '../../common/const';
+import { AuthorizationStatus, RequestStatus } from '../../common/const';
 import { TCityName } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
 import Header from '../../components/header';
+import Loader from '../../components/loader';
 import LocationsTabs from '../../components/locations-tabs';
 import useAppDispatch from '../../hooks/use-app-dispatch';
 import useAppSelector from '../../hooks/use-app-selector';
-import { mockOffers } from '../../mocks/mocks';
-import { selectCity, selectOffers } from '../../store/offers/offers.selectors';
-import { setCity, setOffers } from '../../store/offers/offers.slice';
+import { selectCity, selectOffersByCity, selectStatus } from '../../store/offers/offers.selectors';
+import { setCity } from '../../store/offers/offers.slice';
+import { fetchOffers } from '../../store/offers/offers.thunks';
 
 
 const Main = () => {
   const dispath = useAppDispatch();
 
-  const offers = useAppSelector(selectOffers);
+  const offers = useAppSelector(selectOffersByCity);
   const currentCity = useAppSelector(selectCity);
+  const loadingStatus = useAppSelector(selectStatus);
 
   useEffect(() => {
-    dispath(setOffers(mockOffers));
+    dispath(fetchOffers());
   }, [dispath]);
 
   const hasOffers = offers.length > 0;
@@ -37,7 +39,11 @@ const Main = () => {
   };
 
   const renderCityPlaces = () => {
-    if (!hasOffers) {
+    if (loadingStatus === RequestStatus.Loading) {
+      return <Loader />;
+    }
+
+    if (loadingStatus === RequestStatus.Failed || !hasOffers) {
       return <CityPlacesEmpty />;
     }
 
