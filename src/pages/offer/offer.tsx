@@ -31,7 +31,7 @@ const Offer = ({ authorizationStatus }: TProps) => {
 
   return (
     <div className="page">
-      <Header authorizationStatus={AuthorizationStatus.Auth} />
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">

@@ -46,12 +46,14 @@ export type TUser = {
   token: string;
 }
 
+export type TUserShort = Omit<TUser, 'email' | 'token'>;
+
 export type TUserReview = {
   id: string;
   comment: string;
   date: string;
   rating: number;
-  user: TUser;
+  user: TUserShort;
 }
 
 export type TCityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';

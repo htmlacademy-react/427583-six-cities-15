@@ -17,7 +17,7 @@ const favoritesByCity = mockOffers.reduce((offersList: { [K: string]: TOffer[] }
 
 const Favorites = () => (
   <div className="page">
-    <Header authorizationStatus={AuthorizationStatus.Auth} />
+    <Header />
 
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
