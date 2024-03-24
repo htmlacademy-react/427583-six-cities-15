@@ -1,4 +1,3 @@
-import { AuthorizationStatus } from '../../common/const';
 import { TOffer } from '../../common/types';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
