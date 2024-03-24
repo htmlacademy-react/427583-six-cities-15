@@ -42,6 +42,8 @@ export type TUser = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
+  email: string;
+  token: string;
 }
 
 export type TUserReview = {
@@ -62,3 +64,8 @@ export type TCities = {
     zoom: number;
   };
 };
+
+export type TUserAuthData = {
+  email: string;
+  password: string;
+}

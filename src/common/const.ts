@@ -9,7 +9,8 @@ export enum AppRoute {
 
 export enum AuthorizationStatus {
   Auth = 'Auth',
-  NonAuth = 'NonAuth'
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown'
 }
 
 export const CITIES: TCities = {
@@ -67,5 +68,7 @@ export enum RequestStatus {
 }
 
 export const Endpoint = {
-  Offers: '/offers'
+  Offers: '/offers',
+  Login: '/login',
+  Logout: '/logout',
 };
