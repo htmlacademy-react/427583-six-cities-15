@@ -1,4 +1,3 @@
-import { AuthorizationStatus } from '../../common/const';
 import { TOffer } from '../../common/types';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
@@ -17,7 +16,7 @@ const favoritesByCity = mockOffers.reduce((offersList: { [K: string]: TOffer[] }
 
 const Favorites = () => (
   <div className="page">
-    <Header authorizationStatus={AuthorizationStatus.Auth} />
+    <Header />
 
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">

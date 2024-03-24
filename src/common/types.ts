@@ -42,14 +42,18 @@ export type TUser = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
+  email: string;
+  token: string;
 }
+
+export type TUserShort = Omit<TUser, 'email' | 'token'>;
 
 export type TUserReview = {
   id: string;
   comment: string;
   date: string;
   rating: number;
-  user: TUser;
+  user: TUserShort;
 }
 
 export type TCityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
@@ -62,3 +66,8 @@ export type TCities = {
     zoom: number;
   };
 };
+
+export type TUserAuthData = {
+  email: string;
+  password: string;
+}

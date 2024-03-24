@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect } from 'react';
 
-import { AuthorizationStatus, RequestStatus } from '../../common/const';
+import { RequestStatus } from '../../common/const';
 import { TCityName } from '../../common/types';
 import CityPlaces from '../../components/city-places';
 import CityPlacesEmpty from '../../components/city-places-empty';
@@ -52,7 +52,7 @@ const Main = () => {
 
   return (
     <div className="page page--gray page--main">
-      <Header authorizationStatus={AuthorizationStatus.Auth} />
+      <Header />
       <main className={pageMainClasses}>
         <h1 className="visually-hidden">Cities</h1>
         <LocationsTabs
