@@ -52,7 +52,7 @@ const Map = ({ city, points, selectedPointId, className }: TProps) => {
           .addTo(markersLayer.current);
       });
     }
-  }, [map, points, selectedPointId, city]); //TODO:city можно будет удалить из зависимостей, когда появятся points других городов
+  }, [map, points, selectedPointId]);
 
   return (
     <section className={className} ref={mapRef} />

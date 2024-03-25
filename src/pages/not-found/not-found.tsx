@@ -6,7 +6,7 @@ import style from './style.module.css';
 const NotFound = () => (
   <div className={style['not-found']}>
     <h1>404 Not Found</h1>
-    <div>¯\_(ツ)_/¯</div>
+    <p>¯\_(ツ)_/¯</p>
     <Link to={AppRoute.Main}>Вернуться на Главную</Link>
   </div>
 );

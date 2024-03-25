@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../common/const';
 import useAppDispatch from '../../hooks/use-app-dispatch';
 import useAppSelector from '../../hooks/use-app-selector';
-import { selectAuthorizationStatus, selectUser } from '../../store/auth/auth.selectors';
-import { logout } from '../../store/auth/auth.thunks';
+import { selectAuthorizationStatus, selectUser } from '../../store/auth/selectors';
+import { logout } from '../../store/auth/thunks';
 import Logo from '../logo';
 
 const Header = () => {

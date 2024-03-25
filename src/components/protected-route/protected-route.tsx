@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '../../common/const';
 import useAppSelector from '../../hooks/use-app-selector';
-import { selectUser } from '../../store/auth/auth.selectors';
+import { selectUser } from '../../store/auth/selectors';
 
 type TFrom = {
   from?: Location;
