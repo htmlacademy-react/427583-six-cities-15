@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 
-import { TRating, TRatingNumeric, TReview } from './types';
+import { TRating, TReviewComment } from '../../common/types';
+import useAppDispatch from '../../hooks/use-app-dispatch';
+import { postUserReview } from '../../store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
@@ -15,17 +17,30 @@ const RATINGS: TRating = {
 
 const reversedRatings = Object.keys(RATINGS).reverse();
 
-const ReviewForm = () => {
-  const [reviewForm, setReviewForm] = useState<TReview>({
-    review: '',
+type TProps = {
+  offerId: string;
+  onReviewSend: () => void;
+}
+
+const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
+  const dispatch = useAppDispatch();
+
+  const [reviewForm, setReviewForm] = useState<TReviewComment>({
+    comment: '',
     rating: undefined,
   });
 
   const clearForm = () => {
     setReviewForm({
-      review: '',
+      comment: '',
       rating: undefined,
     });
+  };
+
+  const isFormValid = () => {
+    const { comment, rating } = reviewForm;
+
+    return rating && (comment.length >= MIN_REVIEW_LENGTH && comment.length <= MAX_REVIEW_LENGTH);
   };
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,16 +54,22 @@ const ReviewForm = () => {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    if (!isFormValid()) {
+      return;
+    }
+
+    dispatch(postUserReview({
+      id: offerId,
+      comment: reviewForm.comment,
+      rating: Number(reviewForm.rating),
+    }));
+
     clearForm();
+    onReviewSend();
   };
 
-  const isFormValid = () => {
-    const { review, rating } = reviewForm;
-
-    return rating && (review.length >= MIN_REVIEW_LENGTH && review.length <= MAX_REVIEW_LENGTH);
-  };
-
-  const { review } = reviewForm;
+  const { comment } = reviewForm;
 
   return (
     <form className="reviews__form form" onSubmit={handleFormSubmit}>
@@ -62,13 +83,13 @@ const ReviewForm = () => {
               value={rating}
               id={`${rating}-stars`}
               type="radio"
-              checked={rating === reviewForm.rating}
+              checked={Number(rating) === reviewForm.rating}
               onChange={handleFieldChange}
             />
             <label
               htmlFor={`${rating}-stars`}
               className="reviews__rating-label form__rating-label"
-              title={RATINGS[rating as TRatingNumeric]}
+              title={RATINGS[rating]}
             >
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
@@ -80,9 +101,9 @@ const ReviewForm = () => {
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
-        name="review"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={review}
+        value={comment}
         onChange={handleFieldChange}
       />
       <div className="reviews__button-wrapper">

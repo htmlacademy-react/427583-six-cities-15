@@ -1,33 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { AuthorizationStatus, CITIES } from '../../common/const';
+import { CITIES } from '../../common/const';
+import { getPointsFromOffers } from '../../common/utils';
 import Header from '../../components/header';
 import Map from '../../components/map';
 import PlaceCard from '../../components/place-card';
+import Rating from '../../components/rating';
 import ReviewList from '../../components/review-list';
-import { mockOffers, mockPoints, mockUserReviews } from '../../mocks/mocks';
+import useAppDispatch from '../../hooks/use-app-dispatch';
+import useAppSelector from '../../hooks/use-app-selector';
+import { selectNearbyOffers, selectOffer } from '../../store/offer/selectors';
+import { fetchNearbyOffers, fetchOffer } from '../../store/offer/thunks';
+import { selectCity } from '../../store/offers-list/selectors';
+import NotFound from '../not-found';
 
-type TProps = {
-  authorizationStatus: AuthorizationStatus;
-}
+const NEARBY_OFFERS_COUNT = 3;
 
-const Offer = ({ authorizationStatus }: TProps) => {
-  const { id } = useParams();
+const Offer = () => {
+  const dispatch = useAppDispatch();
+  const { id: offerId } = useParams();
   const [selectedPointId, setSelectedPointId] = useState('');
-  const offer = mockOffers.find((item) => id === item.id);
+  const offer = useAppSelector(selectOffer);
+  const selectedCity = useAppSelector(selectCity);
+  const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, NEARBY_OFFERS_COUNT);
+  const nearbyPoints = getPointsFromOffers(nearbyOffers);
 
-  if (!offer) {
-    return null;
-  }
+  useEffect(() => {
+    if (!offerId) {
+      return;
+    }
 
-  const { isPremium, price, rating, title, type } = offer;
-  const otherOffers = mockOffers.filter((item) => item.id !== offer.id);
-  const otherPoints = mockPoints.filter((item) => item.id !== offer.id);
+    dispatch(fetchOffer(offerId));
+    dispatch(fetchNearbyOffers(offerId));
+  }, [dispatch, offerId]);
+
+  useEffect(() => {
+    if (!offer || !nearbyPoints.length || !offerId) {
+      return;
+    }
+
+    nearbyPoints.push({
+      id: offerId,
+      latitude: offer.location.latitude,
+      longitude: offer.location.longitude,
+    });
+  }, [offer, nearbyPoints, offerId]);
 
   const handleCardSelect = (pointId: string) => {
     setSelectedPointId(pointId);
   };
+
+  if (!offer) {
+    return <NotFound />;
+  }
 
   return (
     <div className="page">
@@ -37,36 +63,30 @@ const Offer = ({ authorizationStatus }: TProps) => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {offer.images.map((image) => (
+                <div
+                  className="offer__image-wrapper"
+                  key={image}
+                >
+                  <img
+                    className="offer__image"
+                    src={image}
+                    alt="Photo studio"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium && (
+              {offer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  {title}
+                  {offer.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -76,94 +96,68 @@ const Offer = ({ authorizationStatus }: TProps) => {
                 </button>
               </div>
               <div className="offer__rating rating">
-                <div className="offer__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="offer__rating-value rating__value">{rating}</span>
+                <Rating className="offer__stars" rating={offer.rating} />
+                <span className="offer__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {type}
+                  {offer.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{price}</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Towels
-                  </li>
-                  <li className="offer__inside-item">
-                    Heating
-                  </li>
-                  <li className="offer__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                    Fridge
-                  </li>
+                  {offer.goods.map((good) => (
+                    <li className="offer__inside-item" key={good}>
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                    <img
+                      className="offer__avatar user__avatar"
+                      src={offer.host.avatarUrl}
+                      width="74"
+                      height="74"
+                      alt="Host avatar"
+                    />
                   </div>
                   <span className="offer__user-name">
-                    Angelina
+                    {offer.host.name}
                   </span>
-                  <span className="offer__user-status">
-                    Pro
-                  </span>
+                  {offer.host.isPro && (
+                    <span className="offer__user-status">
+                      Pro
+                    </span>
+                  )}
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {offer.description}
                   </p>
                 </div>
               </div>
-              <ReviewList
-                authorizationStatus={authorizationStatus}
-                reviews={mockUserReviews}
-              />
+              {offerId && <ReviewList offerId={offerId} />}
             </div>
           </div>
           <Map
             className="offer__map"
-            city={CITIES['Amsterdam']}
-            points={otherPoints}
+            city={CITIES[selectedCity]}
+            points={nearbyPoints}
             selectedPointId={selectedPointId}
           />
         </section>
@@ -171,7 +165,7 @@ const Offer = ({ authorizationStatus }: TProps) => {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {otherOffers.map((item) => (
+              {nearbyOffers.map((item) => (
                 <PlaceCard key={item.id} {...item} variant="near-places" onSelect={handleCardSelect} />
               ))}
             </div>

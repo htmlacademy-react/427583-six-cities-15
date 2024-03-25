@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { CITIES, SortType } from '../../common/const';
 import { TCityName, TOffer } from '../../common/types';
-import { mockPoints } from '../../mocks/mocks';
+import { getPointsFromOffers } from '../../common/utils';
 import Map from '../map';
 import OffersSort from '../offers-sort';
 import PlaceCard from '../place-card';
@@ -16,6 +16,7 @@ type TProps = {
 const CityPlaces = ({ offers, selectedCity }: TProps) => {
   const [selectedPointId, setSelectedPointId] = useState('');
   const [sortedOffers, setSortedOffers] = useState(offers);
+  const mapPoints = getPointsFromOffers(offers);
 
   const handleCardSelect = (id: string) => {
     setSelectedPointId(id);
@@ -46,7 +47,7 @@ const CityPlaces = ({ offers, selectedCity }: TProps) => {
           <Map
             className="cities__map"
             city={CITIES[selectedCity]}
-            points={mockPoints}
+            points={mapPoints}
             selectedPointId={selectedPointId}
           />
         </div>

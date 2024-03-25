@@ -2,22 +2,22 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { CITIES, RequestStatus } from '../../common/const';
 import { TCityName, TOffer } from '../../common/types';
-import { fetchOffers } from './offers.thunks';
+import { fetchOffersList } from './thunks';
 
-type TOffersStore = {
-  offers: TOffer[];
+type TOffersListStore = {
+  offersList: TOffer[];
   city: TCityName;
   status: RequestStatus;
 }
 
-const initialState: TOffersStore = {
-  offers: [],
+const initialState: TOffersListStore = {
+  offersList: [],
   city: CITIES.Amsterdam.name,
   status: RequestStatus.Idle,
 };
 
 const slice = createSlice({
-  name: 'offers',
+  name: 'offersList',
   initialState,
   reducers: {
     setCity: (state, action: PayloadAction<TCityName>) => {
@@ -26,14 +26,14 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOffers.pending, (state) => {
+      .addCase(fetchOffersList.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
-      .addCase(fetchOffers.fulfilled, (state, action) => {
+      .addCase(fetchOffersList.fulfilled, (state, action) => {
         state.status = RequestStatus.Success;
-        state.offers = action.payload;
+        state.offersList = action.payload;
       })
-      .addCase(fetchOffers.rejected, (state) => {
+      .addCase(fetchOffersList.rejected, (state) => {
         state.status = RequestStatus.Failed;
       });
   }
@@ -41,4 +41,4 @@ const slice = createSlice({
 
 export const { setCity } = slice.actions;
 
-export const { reducer: offersReducer } = slice;
+export const { reducer: offersListReducer } = slice;

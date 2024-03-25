@@ -17,12 +17,25 @@ export type TOffer = {
   title: string;
   type: TOfferType;
   price: number;
-  previewImage: string;
   city: TOfferCity;
-  location?: TLocation;
+  location: TLocation;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
+  previewImage: string;
+}
+
+export type TOfferFull = TOffer & {
+  description: string;
+  images: string[];
+  goods: string[];
+  host: {
+    isPro: boolean;
+    name: string;
+    avatarUrl: string;
+  };
+  bedrooms: number;
+  maxAdults: number;
 }
 
 export type TCity = {
@@ -50,10 +63,10 @@ export type TUserShort = Omit<TUser, 'email' | 'token'>;
 
 export type TUserReview = {
   id: string;
-  comment: string;
   date: string;
-  rating: number;
   user: TUserShort;
+  comment: string;
+  rating: number;
 }
 
 export type TCityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
@@ -70,4 +83,15 @@ export type TCities = {
 export type TUserAuthData = {
   email: string;
   password: string;
+}
+
+export type TRatingNamed = 'perfect' | 'good' | 'not bad' | 'badly' | 'terribly';
+
+export type TRating = {
+  [K: string]: TRatingNamed;
+};
+
+export type TReviewComment = {
+  comment: string;
+  rating?: number;
 }
