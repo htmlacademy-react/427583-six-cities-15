@@ -1,7 +1,10 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 
+import { RequestStatus } from '../../common/const';
 import { TRating, TReviewComment } from '../../common/types';
 import useAppDispatch from '../../hooks/use-app-dispatch';
+import useAppSelector from '../../hooks/use-app-selector';
+import { selectOfferLoadingStatus } from '../../store/offer/selectors';
 import { postUserReview } from '../../store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
@@ -24,6 +27,7 @@ type TProps = {
 
 const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const dispatch = useAppDispatch();
+  const loadingStatus = useAppSelector(selectOfferLoadingStatus);
 
   const [reviewForm, setReviewForm] = useState<TReviewComment>({
     comment: '',
@@ -33,7 +37,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const clearForm = () => {
     setReviewForm({
       comment: '',
-      rating: undefined,
+      rating: 0,
     });
   };
 
@@ -63,10 +67,12 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
       id: offerId,
       comment: reviewForm.comment,
       rating: Number(reviewForm.rating),
-    }));
-
-    clearForm();
-    onReviewSend();
+    }))
+      .unwrap()
+      .then(() => {
+        onReviewSend();
+        clearForm();
+      });
   };
 
   const { comment } = reviewForm;
@@ -83,7 +89,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
               value={rating}
               id={`${rating}-stars`}
               type="radio"
-              checked={Number(rating) === reviewForm.rating}
+              checked={Number(rating) === Number(reviewForm.rating)}
               onChange={handleFieldChange}
             />
             <label
@@ -113,8 +119,9 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormValid()}
-        >Submit
+          disabled={!isFormValid() || loadingStatus === RequestStatus.Loading}
+        >
+          Submit
         </button>
       </div>
     </form>

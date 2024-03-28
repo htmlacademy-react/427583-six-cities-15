@@ -30,7 +30,7 @@ const Main = () => {
   const pageMainClasses = cn([
     'page__main',
     'page__main--index',
-    hasOffers ? 'page__main--index-empty' : ''
+    !hasOffers ? 'page__main--index-empty' : ''
   ]);
 
   const handleCityChange = (city: TCityName) => {

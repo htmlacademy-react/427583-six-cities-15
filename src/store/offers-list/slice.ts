@@ -12,7 +12,7 @@ type TOffersListStore = {
 
 const initialState: TOffersListStore = {
   offersList: [],
-  city: CITIES.Amsterdam.name,
+  city: CITIES.Paris.name,
   status: RequestStatus.Idle,
 };
 

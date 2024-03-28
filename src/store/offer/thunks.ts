@@ -30,5 +30,6 @@ export const fetchNearbyOffers = createAsyncThunk<TOffer[], string, { extra: Axi
 
 export const postUserReview = createAsyncThunk<void, { id: string } & TReviewComment, { extra: AxiosInstance }>(
   'offer/postUserReview',
-  async ({ id, comment, rating }, { extra: api }) => await api.post(`${Endpoint.Comments}/${id}`, { comment, rating })
+  async ({ id, comment, rating }, { extra: api }) =>
+    await api.post(`${Endpoint.Comments}/${id}`, { comment, rating })
 );

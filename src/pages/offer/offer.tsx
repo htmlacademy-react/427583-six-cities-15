@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CITIES } from '../../common/const';
+import { CITIES, OfferType } from '../../common/const';
 import { getPointsFromOffers } from '../../common/utils';
 import Header from '../../components/header';
 import Map from '../../components/map';
@@ -16,11 +16,11 @@ import { selectCity } from '../../store/offers-list/selectors';
 import NotFound from '../not-found';
 
 const NEARBY_OFFERS_COUNT = 3;
+const MAX_IMAGES_COUNT = 6;
 
 const Offer = () => {
   const dispatch = useAppDispatch();
   const { id: offerId } = useParams();
-  const [selectedPointId, setSelectedPointId] = useState('');
   const offer = useAppSelector(selectOffer);
   const selectedCity = useAppSelector(selectCity);
   const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, NEARBY_OFFERS_COUNT);
@@ -47,13 +47,12 @@ const Offer = () => {
     });
   }, [offer, nearbyPoints, offerId]);
 
-  const handleCardSelect = (pointId: string) => {
-    setSelectedPointId(pointId);
-  };
-
   if (!offer) {
     return <NotFound />;
   }
+
+  const bedroomsString = `${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`;
+  const maxAdultsString = `Max ${offer.maxAdults} Adult${offer.maxAdults > 1 ? 's' : ''}`;
 
   return (
     <div className="page">
@@ -63,7 +62,7 @@ const Offer = () => {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer.images.map((image) => (
+              {offer.images.slice(0, MAX_IMAGES_COUNT).map((image) => (
                 <div
                   className="offer__image-wrapper"
                   key={image}
@@ -101,13 +100,13 @@ const Offer = () => {
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {offer.type}
+                  {OfferType[offer.type]}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offer.bedrooms} Bedrooms
+                  {bedroomsString}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offer.maxAdults} adults
+                  {maxAdultsString}
                 </li>
               </ul>
               <div className="offer__price">
@@ -158,7 +157,7 @@ const Offer = () => {
             className="offer__map"
             city={CITIES[selectedCity]}
             points={nearbyPoints}
-            selectedPointId={selectedPointId}
+            selectedPointId={offerId}
           />
         </section>
         <div className="container">
@@ -166,7 +165,7 @@ const Offer = () => {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {nearbyOffers.map((item) => (
-                <PlaceCard key={item.id} {...item} variant="near-places" onSelect={handleCardSelect} />
+                <PlaceCard key={item.id} {...item} variant="near-places" />
               ))}
             </div>
           </section>

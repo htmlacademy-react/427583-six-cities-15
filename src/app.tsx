@@ -11,6 +11,7 @@ import NotFound from './pages/not-found';
 import Offer from './pages/offer';
 import { getToken } from './services/token';
 import { checkAuth } from './store/auth/thunks';
+import { fetchFavoritesList } from './store/favorites/thunks';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const App = () => {
   useEffect(() => {
     if (token) {
       dispatch(checkAuth());
+      dispatch(fetchFavoritesList());
     }
   }, [token, dispatch]);
 
