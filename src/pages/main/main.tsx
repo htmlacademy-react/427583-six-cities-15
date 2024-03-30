@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { RequestStatus } from '@/common/const';
 import { TCityName } from '@/common/types';
@@ -16,14 +16,14 @@ import { fetchOffersList } from '@/store/offers-list/thunks';
 
 
 const Main = () => {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const offers = useAppSelector(selectOffersByCity);
   const currentCity = useAppSelector(selectCity);
   const loadingStatus = useAppSelector(selectStatus);
 
   useEffect(() => {
-    dispath(fetchOffersList());
-  }, [dispath, currentCity]);
+    dispatch(fetchOffersList());
+  }, [dispatch, currentCity]);
 
   const hasOffers = offers.length > 0;
 
@@ -33,9 +33,9 @@ const Main = () => {
     !hasOffers ? 'page__main--index-empty' : ''
   ]);
 
-  const handleCityChange = (city: TCityName) => {
-    dispath(setCity(city));
-  };
+  const handleCityChange = useCallback((city: TCityName) => {
+    dispatch(setCity(city));
+  }, [dispatch]);
 
   const renderCityPlaces = () => {
     if (loadingStatus === RequestStatus.Loading) {
@@ -46,7 +46,7 @@ const Main = () => {
       return <CityPlacesEmpty />;
     }
 
-    return <CityPlaces offers={offers} selectedCity={currentCity} />;
+    return <CityPlaces />;
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CITIES, OfferType } from '@/common/const';
@@ -24,10 +24,12 @@ const NEARBY_OFFERS_COUNT = 3;
 const Offer = () => {
   const dispatch = useAppDispatch();
   const { id: offerId } = useParams();
+
   const offer = useAppSelector(selectOffer);
   const selectedCity = useAppSelector(selectCity);
   const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, NEARBY_OFFERS_COUNT);
-  const nearbyPoints = getPointsFromOffers(nearbyOffers);
+
+  const nearbyPoints = useMemo(() => getPointsFromOffers(nearbyOffers), [nearbyOffers]);
 
   useEffect(() => {
     if (!offerId) {
