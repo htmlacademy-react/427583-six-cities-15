@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../common/const';
@@ -74,4 +74,6 @@ const Header = () => {
   );
 };
 
-export default Header;
+const MemoizedHeader = memo(Header);
+
+export default MemoizedHeader;

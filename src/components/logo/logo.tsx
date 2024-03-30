@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../common/const';
@@ -8,4 +9,6 @@ const Logo = () => (
   </Link>
 );
 
-export default Logo;
+const MemoizedLogo = memo(Logo);
+
+export default MemoizedLogo;

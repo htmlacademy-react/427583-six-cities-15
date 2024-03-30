@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { memo } from 'react';
 
 import getRatingWidth from './getRatingWidth';
 
@@ -19,4 +20,6 @@ const Rating = ({ rating, className }: TProps) => (
   </div >
 );
 
-export default Rating;
+const MemoizedRating = memo(Rating);
+
+export default MemoizedRating;

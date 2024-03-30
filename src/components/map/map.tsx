@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css';
 
 import { Icon, LayerGroup, layerGroup, Marker } from 'leaflet';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 
 import { TCity, TPoint } from '../../common/types';
 import useMap from '../../hooks/use-map';
@@ -59,4 +59,6 @@ const Map = ({ city, points, selectedPointId, className }: TProps) => {
   );
 };
 
-export default Map;
+const MemoizedMap = memo(Map);
+
+export default MemoizedMap;
