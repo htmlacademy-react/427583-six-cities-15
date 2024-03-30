@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
 
-import { AuthorizationStatus } from '../../common/const';
-import { getSortedReviews } from '../../common/utils';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectAuthorizationStatus } from '../../store/auth/selectors';
-import { selectOfferReviews } from '../../store/offer/selectors';
-import { fetchOfferReviews } from '../../store/offer/thunks';
+import { memo, useEffect } from 'react';
+
+import { AuthorizationStatus } from '../../../../common/const';
+import { getSortedReviews } from '../../../../common/utils';
+import ReviewItem from '../../../../components/review-item';
+import useAppDispatch from '../../../../hooks/use-app-dispatch';
+import useAppSelector from '../../../../hooks/use-app-selector';
+import { selectAuthorizationStatus } from '../../../../store/auth/selectors';
+import { selectOfferReviews } from '../../../../store/offer/selectors';
+import { fetchOfferReviews } from '../../../../store/offer/thunks';
 import ReviewForm from '../review-form';
-import ReviewItem from '../review-item';
 
 type TProps = {
   offerId: string;
@@ -51,4 +52,6 @@ const ReviewList = ({ offerId }: TProps) => {
   );
 };
 
-export default ReviewList;
+const MemoizedReviewList = memo(ReviewList);
+
+export default MemoizedReviewList;

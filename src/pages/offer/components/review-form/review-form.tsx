@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useCallback, useState } from 'react';
 
-import { RequestStatus } from '../../common/const';
-import { TRating, TReviewComment } from '../../common/types';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectOfferLoadingStatus } from '../../store/offer/selectors';
-import { postUserReview } from '../../store/offer/thunks';
+import { RequestStatus } from '../../../../common/const';
+import { TRating, TReviewComment } from '../../../../common/types';
+import useAppDispatch from '../../../../hooks/use-app-dispatch';
+import useAppSelector from '../../../../hooks/use-app-selector';
+import { selectOfferLoadingStatus } from '../../../../store/offer/selectors';
+import { postUserReview } from '../../../../store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
@@ -41,11 +41,11 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
     });
   };
 
-  const isFormValid = () => {
+  const isFormValid = useCallback(() => {
     const { comment, rating } = reviewForm;
 
     return rating && (comment.length >= MIN_REVIEW_LENGTH && comment.length <= MAX_REVIEW_LENGTH);
-  };
+  }, [reviewForm]);
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
@@ -56,7 +56,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
     });
   };
 
-  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (!isFormValid()) {
@@ -73,7 +73,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
         onReviewSend();
         clearForm();
       });
-  };
+  }, [dispatch, isFormValid, offerId, onReviewSend, reviewForm.comment, reviewForm.rating]);
 
   const { comment } = reviewForm;
 

@@ -5,18 +5,20 @@ import { CITIES, OfferType } from '../../common/const';
 import { getPointsFromOffers } from '../../common/utils';
 import Header from '../../components/header';
 import Map from '../../components/map';
-import PlaceCard from '../../components/place-card';
 import Rating from '../../components/rating';
-import ReviewList from '../../components/review-list';
 import useAppDispatch from '../../hooks/use-app-dispatch';
 import useAppSelector from '../../hooks/use-app-selector';
 import { selectNearbyOffers, selectOffer } from '../../store/offer/selectors';
 import { fetchNearbyOffers, fetchOffer } from '../../store/offer/thunks';
 import { selectCity } from '../../store/offers-list/selectors';
 import NotFound from '../not-found';
+import InsideGoods from './components/inside-goods';
+import NearPlaces from './components/near-places';
+import OfferGallery from './components/offer-gallery';
+import OfferHost from './components/offer-host';
+import ReviewList from './components/review-list';
 
 const NEARBY_OFFERS_COUNT = 3;
-const MAX_IMAGES_COUNT = 6;
 
 const Offer = () => {
   const dispatch = useAppDispatch();
@@ -60,22 +62,7 @@ const Offer = () => {
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              {offer.images.slice(0, MAX_IMAGES_COUNT).map((image) => (
-                <div
-                  className="offer__image-wrapper"
-                  key={image}
-                >
-                  <img
-                    className="offer__image"
-                    src={image}
-                    alt="Photo studio"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          <OfferGallery images={offer.images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {offer.isPremium && (
@@ -113,43 +100,13 @@ const Offer = () => {
                 <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <div className="offer__inside">
-                <h2 className="offer__inside-title">What&apos;s inside</h2>
-                <ul className="offer__inside-list">
-                  {offer.goods.map((good) => (
-                    <li className="offer__inside-item" key={good}>
-                      {good}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="offer__host">
-                <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img
-                      className="offer__avatar user__avatar"
-                      src={offer.host.avatarUrl}
-                      width="74"
-                      height="74"
-                      alt="Host avatar"
-                    />
-                  </div>
-                  <span className="offer__user-name">
-                    {offer.host.name}
-                  </span>
-                  {offer.host.isPro && (
-                    <span className="offer__user-status">
-                      Pro
-                    </span>
-                  )}
-                </div>
-                <div className="offer__description">
-                  <p className="offer__text">
-                    {offer.description}
-                  </p>
-                </div>
-              </div>
+              <InsideGoods goods={offer.goods} />
+              <OfferHost
+                avatarUrl={offer.host.avatarUrl}
+                name={offer.host.name}
+                isPro={offer.host.isPro}
+                description={offer.description}
+              />
               {offerId && <ReviewList offerId={offerId} />}
             </div>
           </div>
@@ -161,14 +118,7 @@ const Offer = () => {
           />
         </section>
         <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              {nearbyOffers.map((item) => (
-                <PlaceCard key={item.id} {...item} variant="near-places" />
-              ))}
-            </div>
-          </section>
+          <NearPlaces nearbyOffers={nearbyOffers} />
         </div>
       </main>
     </div>
