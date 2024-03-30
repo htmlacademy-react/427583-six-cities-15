@@ -1,11 +1,11 @@
 import { ChangeEvent, FormEvent, Fragment, useCallback, useState } from 'react';
 
-import { RequestStatus } from '../../../../common/const';
-import { TRating, TReviewComment } from '../../../../common/types';
-import useAppDispatch from '../../../../hooks/use-app-dispatch';
-import useAppSelector from '../../../../hooks/use-app-selector';
-import { selectOfferLoadingStatus } from '../../../../store/offer/selectors';
-import { postUserReview } from '../../../../store/offer/thunks';
+import { RequestStatus } from '@/common/const';
+import { TRating, TReviewComment } from '@/common/types';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectOfferLoadingStatus } from '@/store/offer/selectors';
+import { postUserReview } from '@/store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;

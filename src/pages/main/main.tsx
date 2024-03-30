@@ -1,18 +1,18 @@
 import cn from 'classnames';
 import { useEffect } from 'react';
 
-import { RequestStatus } from '../../common/const';
-import { TCityName } from '../../common/types';
-import CityPlaces from '../../components/city-places';
-import CityPlacesEmpty from '../../components/city-places-empty';
-import Header from '../../components/header';
-import Loader from '../../components/loader';
-import LocationsTabs from '../../components/locations-tabs';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectCity, selectOffersByCity, selectStatus } from '../../store/offers-list/selectors';
-import { setCity } from '../../store/offers-list/slice';
-import { fetchOffersList } from '../../store/offers-list/thunks';
+import { RequestStatus } from '@/common/const';
+import { TCityName } from '@/common/types';
+import CityPlaces from '@/components/city-places';
+import CityPlacesEmpty from '@/components/city-places-empty';
+import Header from '@/components/header';
+import Loader from '@/components/loader';
+import LocationsTabs from '@/components/locations-tabs';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectCity, selectOffersByCity, selectStatus } from '@/store/offers-list/selectors';
+import { setCity } from '@/store/offers-list/slice';
+import { fetchOffersList } from '@/store/offers-list/thunks';
 
 
 const Main = () => {

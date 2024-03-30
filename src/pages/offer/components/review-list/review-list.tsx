@@ -1,14 +1,15 @@
 
 import { memo, useEffect } from 'react';
 
-import { AuthorizationStatus } from '../../../../common/const';
-import { getSortedReviews } from '../../../../common/utils';
-import ReviewItem from '../../../../components/review-item';
-import useAppDispatch from '../../../../hooks/use-app-dispatch';
-import useAppSelector from '../../../../hooks/use-app-selector';
-import { selectAuthorizationStatus } from '../../../../store/auth/selectors';
-import { selectOfferReviews } from '../../../../store/offer/selectors';
-import { fetchOfferReviews } from '../../../../store/offer/thunks';
+import { AuthorizationStatus } from '@/common/const';
+import { getSortedReviews } from '@/common/utils';
+import ReviewItem from '@/components/review-item';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectAuthorizationStatus } from '@/store/auth/selectors';
+import { selectOfferReviews } from '@/store/offer/selectors';
+import { fetchOfferReviews } from '@/store/offer/thunks';
+
 import ReviewForm from '../review-form';
 
 type TProps = {

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { CITIES, SortType } from '../../common/const';
-import { TCityName, TOffer } from '../../common/types';
-import { getPointsFromOffers } from '../../common/utils';
+import { CITIES, SortType } from '@/common/const';
+import { TCityName, TOffer } from '@/common/types';
+import { getPointsFromOffers } from '@/common/utils';
+
 import Map from '../map';
 import OffersSort from '../offers-sort';
 import PlaceCard from '../place-card';

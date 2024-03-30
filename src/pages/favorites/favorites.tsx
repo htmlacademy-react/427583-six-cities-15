@@ -1,8 +1,9 @@
-import Footer from '../../components/footer';
-import Header from '../../components/header';
-import PlaceCard from '../../components/place-card';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectFavoritesList } from '../../store/favorites/selectors';
+import Footer from '@/components/footer';
+import Header from '@/components/header';
+import PlaceCard from '@/components/place-card';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectFavoritesList } from '@/store/favorites/selectors';
+
 import { sortFavoritesByCities } from './utils';
 
 const Favorites = () => {

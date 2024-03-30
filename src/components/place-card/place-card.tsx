@@ -2,7 +2,8 @@ import cn from 'classnames';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { TOfferType } from '../../common/types';
+import { TOfferType } from '@/common/types';
+
 import Rating from '../rating';
 
 type TVariant = 'cities' | 'favorites' | 'near-places';

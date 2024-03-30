@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CITIES, OfferType } from '../../common/const';
-import { getPointsFromOffers } from '../../common/utils';
-import Header from '../../components/header';
-import Map from '../../components/map';
-import Rating from '../../components/rating';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectNearbyOffers, selectOffer } from '../../store/offer/selectors';
-import { fetchNearbyOffers, fetchOffer } from '../../store/offer/thunks';
-import { selectCity } from '../../store/offers-list/selectors';
+import { CITIES, OfferType } from '@/common/const';
+import { getPointsFromOffers } from '@/common/utils';
+import Header from '@/components/header';
+import Map from '@/components/map';
+import Rating from '@/components/rating';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectNearbyOffers, selectOffer } from '@/store/offer/selectors';
+import { fetchNearbyOffers, fetchOffer } from '@/store/offer/thunks';
+import { selectCity } from '@/store/offers-list/selectors';
+
 import NotFound from '../not-found';
 import InsideGoods from './components/inside-goods';
 import NearPlaces from './components/near-places';

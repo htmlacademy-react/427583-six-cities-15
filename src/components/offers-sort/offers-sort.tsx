@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { memo, useCallback, useState } from 'react';
 
-import { SortType } from '../../common/const';
+import { SortType } from '@/common/const';
 
 type TProps = {
   onSortTypeChange: (sortType: SortType) => void;

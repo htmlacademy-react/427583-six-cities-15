@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../common/const';
+import { AppRoute } from '@/common/const';
 
 const Logo = () => (
   <Link className="header__logo-link header__logo-link--active" to={AppRoute.Main}>

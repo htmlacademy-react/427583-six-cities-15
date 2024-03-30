@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../common/const';
+import { AppRoute } from '@/common/const';
 
 const Footer = () => (
   <footer className="footer container">

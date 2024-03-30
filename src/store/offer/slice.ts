@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { RequestStatus } from '../../common/const';
-import { TOffer, TOfferFull, TUserReview } from '../../common/types';
+import { RequestStatus } from '@/common/const';
+import { TOffer, TOfferFull, TUserReview } from '@/common/types';
+
 import { fetchNearbyOffers, fetchOffer, fetchOfferReviews, postUserReview } from './thunks';
 
 type TOfferStore = {

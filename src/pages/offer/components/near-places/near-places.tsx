@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
-import { TOffer } from '../../../../common/types';
-import PlaceCard from '../../../../components/place-card';
+import { TOffer } from '@/common/types';
+import PlaceCard from '@/components/place-card';
 
 
 type TProps = {

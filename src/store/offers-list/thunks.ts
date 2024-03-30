@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { Endpoint } from '../../common/const';
-import { TOffer } from '../../common/types';
+import { Endpoint } from '@/common/const';
+import { TOffer } from '@/common/types';
 
 export const fetchOffersList = createAsyncThunk<TOffer[], void, { extra: AxiosInstance }>(
   'offersList/fetchOffersList',

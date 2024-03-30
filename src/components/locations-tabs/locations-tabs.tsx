@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
-import { CITIES } from '../../common/const';
-import { TCityName } from '../../common/types';
+import { CITIES } from '@/common/const';
+import { TCityName } from '@/common/types';
 
 type TProps = {
   selectedCity: TCityName;

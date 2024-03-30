@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
-import { TUserReview } from '../../common/types';
+import { TUserReview } from '@/common/types';
+
 import Rating from '../rating';
 
 type TProps = {

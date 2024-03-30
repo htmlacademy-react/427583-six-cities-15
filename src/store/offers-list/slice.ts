@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CITIES, RequestStatus } from '../../common/const';
-import { TCityName, TOffer } from '../../common/types';
+import { CITIES, RequestStatus } from '@/common/const';
+import { TCityName, TOffer } from '@/common/types';
+
 import { fetchOffersList } from './thunks';
 
 type TOffersListStore = {

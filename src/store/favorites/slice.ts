@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { RequestStatus } from '../../common/const';
-import { TOffer } from '../../common/types';
+import { RequestStatus } from '@/common/const';
+import { TOffer } from '@/common/types';
+
 import { fetchFavoritesList } from './thunks';
 
 type TFavoritesStore = {
