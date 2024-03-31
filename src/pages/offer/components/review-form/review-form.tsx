@@ -4,7 +4,7 @@ import { RequestStatus } from '@/common/const';
 import { TRating, TReviewComment } from '@/common/types';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
-import { selectOfferLoadingStatus } from '@/store/offer/selectors';
+import { selectRequestStatus } from '@/store/global/selectors';
 import { postUserReview } from '@/store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
@@ -27,7 +27,7 @@ type TProps = {
 
 const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const dispatch = useAppDispatch();
-  const loadingStatus = useAppSelector(selectOfferLoadingStatus);
+  const loadingStatus = useAppSelector(selectRequestStatus);
 
   const [reviewForm, setReviewForm] = useState<TReviewComment>({
     comment: '',

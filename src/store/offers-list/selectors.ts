@@ -6,8 +6,6 @@ export const selectOffersList = (state: RootState) => state.offersList.offersLis
 
 export const selectCity = (state: RootState) => state.offersList.city;
 
-export const selectStatus = (state: RootState) => state.offersList.status;
-
 export const selectOffersByCity = createSelector(
   [selectOffersList, selectCity],
   (offersList, city) => offersList.filter((offer) => offer.city.name === city)

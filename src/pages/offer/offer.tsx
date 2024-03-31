@@ -1,13 +1,15 @@
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CITIES, OfferType } from '@/common/const';
+import { CITIES, OfferType, RequestStatus } from '@/common/const';
 import { getPointsFromOffers } from '@/common/utils';
 import Header from '@/components/header';
+import Loader from '@/components/loader';
 import Map from '@/components/map';
 import Rating from '@/components/rating';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
+import { selectRequestStatus } from '@/store/global/selectors';
 import { selectNearbyOffers, selectOffer } from '@/store/offer/selectors';
 import { fetchNearbyOffers, fetchOffer } from '@/store/offer/thunks';
 import { selectCity } from '@/store/offers-list/selectors';
@@ -28,6 +30,7 @@ const Offer = () => {
   const offer = useAppSelector(selectOffer);
   const selectedCity = useAppSelector(selectCity);
   const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, NEARBY_OFFERS_COUNT);
+  const requestStatus = useAppSelector(selectRequestStatus);
 
   const nearbyPoints = useMemo(() => getPointsFromOffers(nearbyOffers), [nearbyOffers]);
 
@@ -36,8 +39,14 @@ const Offer = () => {
       return;
     }
 
-    dispatch(fetchOffer(offerId));
-    dispatch(fetchNearbyOffers(offerId));
+    const fetchData = async () => {
+      await Promise.all([
+        dispatch(fetchOffer(offerId)),
+        dispatch(fetchNearbyOffers(offerId)),
+      ]);
+    };
+
+    fetchData();
   }, [dispatch, offerId]);
 
   useEffect(() => {
@@ -53,7 +62,7 @@ const Offer = () => {
   }, [offer, nearbyPoints, offerId]);
 
   if (!offer) {
-    return <NotFound />;
+    return [RequestStatus.Idle, RequestStatus.Loading].includes(requestStatus) ? <Loader /> : <NotFound />;
   }
 
   const bedroomsString = `${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`;
@@ -62,7 +71,6 @@ const Offer = () => {
   return (
     <div className="page">
       <Header />
-
       <main className="page__main page__main--offer">
         <section className="offer">
           <OfferGallery images={offer.images} />

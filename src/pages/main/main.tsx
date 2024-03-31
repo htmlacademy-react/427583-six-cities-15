@@ -10,7 +10,8 @@ import Loader from '@/components/loader';
 import LocationsTabs from '@/components/locations-tabs';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
-import { selectCity, selectOffersByCity, selectStatus } from '@/store/offers-list/selectors';
+import { selectRequestStatus } from '@/store/global/selectors';
+import { selectCity, selectOffersByCity } from '@/store/offers-list/selectors';
 import { setCity } from '@/store/offers-list/slice';
 import { fetchOffersList } from '@/store/offers-list/thunks';
 
@@ -19,7 +20,7 @@ const Main = () => {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(selectOffersByCity);
   const currentCity = useAppSelector(selectCity);
-  const loadingStatus = useAppSelector(selectStatus);
+  const loadingStatus = useAppSelector(selectRequestStatus);
 
   useEffect(() => {
     dispatch(fetchOffersList());
