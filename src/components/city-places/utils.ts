@@ -1,5 +1,5 @@
-import { SortType } from '../../common/const';
-import { TOffer } from '../../common/types';
+import { SortType } from '@/common/const';
+import { TOffer } from '@/common/types';
 
 export const sortOffersByType = (offers: TOffer[], sortType: SortType) => {
   switch (true) {

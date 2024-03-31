@@ -1,26 +1,29 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { CITIES, SortType } from '../../common/const';
-import { TCityName, TOffer } from '../../common/types';
-import { getPointsFromOffers } from '../../common/utils';
+import { CITIES, SortType } from '@/common/const';
+import { TOffer } from '@/common/types';
+import { getPointsFromOffers } from '@/common/utils';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectCity, selectOffersByCity } from '@/store/offers-list/selectors';
+
 import Map from '../map';
 import OffersSort from '../offers-sort';
 import PlaceCard from '../place-card';
 import { sortOffersByType } from './utils';
 
-type TProps = {
-  offers: TOffer[];
-  selectedCity: TCityName;
-}
 
-const CityPlaces = ({ offers, selectedCity }: TProps) => {
+const CityPlaces = () => {
+  const offers = useAppSelector(selectOffersByCity);
+  const selectedCity = useAppSelector(selectCity);
+
   const [selectedPointId, setSelectedPointId] = useState('');
   const [sortedOffers, setSortedOffers] = useState(offers);
-  const mapPoints = getPointsFromOffers(offers);
 
-  const handleCardSelect = (id: string) => {
+  const mapPoints = useMemo(() => getPointsFromOffers(offers), [offers]);
+
+  const handleCardSelect = useCallback((id: string) => {
     setSelectedPointId(id);
-  };
+  }, []);
 
   const handleSortTypeChange = (sortType: SortType) => {
     setSortedOffers(sortOffersByType(offers, sortType));

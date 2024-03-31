@@ -1,41 +1,42 @@
 import cn from 'classnames';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
-import { RequestStatus } from '../../common/const';
-import { TCityName } from '../../common/types';
-import CityPlaces from '../../components/city-places';
-import CityPlacesEmpty from '../../components/city-places-empty';
-import Header from '../../components/header';
-import Loader from '../../components/loader';
-import LocationsTabs from '../../components/locations-tabs';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectCity, selectOffersByCity, selectStatus } from '../../store/offers-list/selectors';
-import { setCity } from '../../store/offers-list/slice';
-import { fetchOffersList } from '../../store/offers-list/thunks';
+import { RequestStatus } from '@/common/const';
+import { TCityName } from '@/common/types';
+import CityPlaces from '@/components/city-places';
+import CityPlacesEmpty from '@/components/city-places-empty';
+import Header from '@/components/header';
+import Loader from '@/components/loader';
+import LocationsTabs from '@/components/locations-tabs';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectRequestStatus } from '@/store/global/selectors';
+import { selectCity, selectOffersByCity } from '@/store/offers-list/selectors';
+import { setCity } from '@/store/offers-list/slice';
+import { fetchOffersList } from '@/store/offers-list/thunks';
 
 
 const Main = () => {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const offers = useAppSelector(selectOffersByCity);
   const currentCity = useAppSelector(selectCity);
-  const loadingStatus = useAppSelector(selectStatus);
+  const loadingStatus = useAppSelector(selectRequestStatus);
 
   useEffect(() => {
-    dispath(fetchOffersList());
-  }, [dispath, currentCity]);
+    dispatch(fetchOffersList());
+  }, [dispatch, currentCity]);
 
   const hasOffers = offers.length > 0;
 
   const pageMainClasses = cn([
     'page__main',
     'page__main--index',
-    hasOffers ? 'page__main--index-empty' : ''
+    !hasOffers ? 'page__main--index-empty' : ''
   ]);
 
-  const handleCityChange = (city: TCityName) => {
-    dispath(setCity(city));
-  };
+  const handleCityChange = useCallback((city: TCityName) => {
+    dispatch(setCity(city));
+  }, [dispatch]);
 
   const renderCityPlaces = () => {
     if (loadingStatus === RequestStatus.Loading) {
@@ -46,7 +47,7 @@ const Main = () => {
       return <CityPlacesEmpty />;
     }
 
-    return <CityPlaces offers={offers} selectedCity={currentCity} />;
+    return <CityPlaces />;
   };
 
   return (

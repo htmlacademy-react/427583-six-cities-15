@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AuthorizationStatus } from '../../common/const';
-import { TUser } from '../../common/types';
-import { removeToken } from '../../services/token';
+import { AuthorizationStatus } from '@/common/const';
+import { TUser } from '@/common/types';
+import { removeToken } from '@/services/token';
+
 import { checkAuth, login, logout } from './thunks';
 
 type TAuthStore = {

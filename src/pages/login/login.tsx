@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { TUserAuthData } from '../../common/types';
-import Logo from '../../components/logo';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import { login } from '../../store/auth/thunks';
+import { TUserAuthData } from '@/common/types';
+import Logo from '@/components/logo';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import { login } from '@/store/auth/thunks';
 
 const Login = () => {
   const dispatch = useAppDispatch();

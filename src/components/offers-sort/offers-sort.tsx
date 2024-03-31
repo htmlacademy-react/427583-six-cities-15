@@ -1,7 +1,7 @@
 import cn from 'classnames';
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
-import { SortType } from '../../common/const';
+import { SortType } from '@/common/const';
 
 type TProps = {
   onSortTypeChange: (sortType: SortType) => void;
@@ -11,15 +11,15 @@ const OffersSort = ({ onSortTypeChange }: TProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentSortType, setCurrentSortType] = useState(SortType.Popular);
 
-  const toggleSortList = () => {
+  const toggleSortList = useCallback(() => {
     setIsOpen(!isOpen);
-  };
+  }, [isOpen]);
 
-  const handleSortTypeChange = (sortType: SortType) => {
+  const handleSortTypeChange = useCallback((sortType: SortType) => {
     setCurrentSortType(sortType);
     onSortTypeChange(sortType);
     toggleSortList();
-  };
+  }, [onSortTypeChange, toggleSortList]);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -55,4 +55,6 @@ const OffersSort = ({ onSortTypeChange }: TProps) => {
   );
 };
 
-export default OffersSort;
+const MemoizedOffersSort = memo(OffersSort);
+
+export default MemoizedOffersSort;

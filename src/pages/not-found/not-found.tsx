@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../common/const';
+import { AppRoute } from '@/common/const';
+
 import style from './style.module.css';
 
 const NotFound = () => (

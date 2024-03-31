@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { Endpoint } from '../../common/const';
-import { TUser, TUserAuthData } from '../../common/types';
-import { removeToken, saveToken } from '../../services/token';
+import { Endpoint } from '@/common/const';
+import { TUser, TUserAuthData } from '@/common/types';
+import { removeToken, saveToken } from '@/services/token';
 
 export const checkAuth = createAsyncThunk<TUser, undefined, { extra: AxiosInstance }>(
   'auth/checkAuth',

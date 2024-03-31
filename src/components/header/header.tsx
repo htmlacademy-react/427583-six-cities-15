@@ -1,16 +1,19 @@
-import { MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoute, AuthorizationStatus } from '../../common/const';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import useAppSelector from '../../hooks/use-app-selector';
-import { selectAuthorizationStatus, selectUser } from '../../store/auth/selectors';
-import { logout } from '../../store/auth/thunks';
+import { AppRoute, AuthorizationStatus } from '@/common/const';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectAuthorizationStatus, selectUser } from '@/store/auth/selectors';
+import { logout } from '@/store/auth/thunks';
+import { selectFavoritesCount } from '@/store/favorites/selectors';
+
 import Logo from '../logo';
 
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const favoritesCount = useAppSelector(selectFavoritesCount);
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   const handleSignOut = (evt: MouseEvent<HTMLAnchorElement>) => {
@@ -40,7 +43,7 @@ const Header = () => {
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
             <span className="header__user-name user__name">{user?.email}</span>
-            <span className="header__favorite-count">3</span>
+            <span className="header__favorite-count">{favoritesCount}</span>
           </Link>
         </li>
         <li className="header__nav-item">
@@ -72,4 +75,6 @@ const Header = () => {
   );
 };
 
-export default Header;
+const MemoizedHeader = memo(Header);
+
+export default MemoizedHeader;

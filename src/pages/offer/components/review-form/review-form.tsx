@@ -1,8 +1,11 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useCallback, useState } from 'react';
 
-import { TRating, TReviewComment } from '../../common/types';
-import useAppDispatch from '../../hooks/use-app-dispatch';
-import { postUserReview } from '../../store/offer/thunks';
+import { RequestStatus } from '@/common/const';
+import { TRating, TReviewComment } from '@/common/types';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import { selectRequestStatus } from '@/store/global/selectors';
+import { postUserReview } from '@/store/offer/thunks';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
@@ -24,6 +27,7 @@ type TProps = {
 
 const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const dispatch = useAppDispatch();
+  const loadingStatus = useAppSelector(selectRequestStatus);
 
   const [reviewForm, setReviewForm] = useState<TReviewComment>({
     comment: '',
@@ -33,15 +37,15 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const clearForm = () => {
     setReviewForm({
       comment: '',
-      rating: undefined,
+      rating: 0,
     });
   };
 
-  const isFormValid = () => {
+  const isFormValid = useCallback(() => {
     const { comment, rating } = reviewForm;
 
     return rating && (comment.length >= MIN_REVIEW_LENGTH && comment.length <= MAX_REVIEW_LENGTH);
-  };
+  }, [reviewForm]);
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
@@ -52,7 +56,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
     });
   };
 
-  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (!isFormValid()) {
@@ -63,11 +67,13 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
       id: offerId,
       comment: reviewForm.comment,
       rating: Number(reviewForm.rating),
-    }));
-
-    clearForm();
-    onReviewSend();
-  };
+    }))
+      .unwrap()
+      .then(() => {
+        onReviewSend();
+        clearForm();
+      });
+  }, [dispatch, isFormValid, offerId, onReviewSend, reviewForm.comment, reviewForm.rating]);
 
   const { comment } = reviewForm;
 
@@ -83,7 +89,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
               value={rating}
               id={`${rating}-stars`}
               type="radio"
-              checked={Number(rating) === reviewForm.rating}
+              checked={Number(rating) === Number(reviewForm.rating)}
               onChange={handleFieldChange}
             />
             <label
@@ -113,8 +119,9 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormValid()}
-        >Submit
+          disabled={!isFormValid() || loadingStatus === RequestStatus.Loading}
+        >
+          Submit
         </button>
       </div>
     </form>

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { TOffer, TOfferFull, TUserReview } from '../../common/types';
+import { TOffer, TOfferFull, TUserReview } from '@/common/types';
+
 import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from './thunks';
 
 type TOfferStore = {
@@ -12,7 +13,7 @@ type TOfferStore = {
 const initialState: TOfferStore = {
   offer: undefined,
   reviews: [],
-  nearbyOffers: []
+  nearbyOffers: [],
 };
 
 const slice = createSlice({

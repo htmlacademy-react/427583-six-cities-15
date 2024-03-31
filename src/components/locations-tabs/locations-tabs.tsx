@@ -1,7 +1,8 @@
 import cn from 'classnames';
+import { memo, useCallback } from 'react';
 
-import { CITIES } from '../../common/const';
-import { TCityName } from '../../common/types';
+import { CITIES } from '@/common/const';
+import { TCityName } from '@/common/types';
 
 type TProps = {
   selectedCity: TCityName;
@@ -10,9 +11,9 @@ type TProps = {
 
 
 const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
-  const handleCityChange = (city: TCityName) => {
+  const handleCityChange = useCallback((city: TCityName) => {
     onCityChange(city);
-  };
+  }, [onCityChange]);
 
   return (
     <div className="tabs">
@@ -38,4 +39,6 @@ const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
   );
 };
 
-export default LocationsTabs;
+const MemoizedLocationTabs = memo(LocationsTabs);
+
+export default MemoizedLocationTabs;

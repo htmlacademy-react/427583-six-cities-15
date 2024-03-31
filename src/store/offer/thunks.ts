@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 
-import { Endpoint } from '../../common/const';
-import { TOffer, TOfferFull, TReviewComment, TUserReview } from '../../common/types';
+import { Endpoint } from '@/common/const';
+import { TOffer, TOfferFull, TReviewComment, TUserReview } from '@/common/types';
 
 export const fetchOffer = createAsyncThunk<TOfferFull, string, { extra: AxiosInstance }>(
   'offer/fetchOffer',
@@ -30,5 +30,6 @@ export const fetchNearbyOffers = createAsyncThunk<TOffer[], string, { extra: Axi
 
 export const postUserReview = createAsyncThunk<void, { id: string } & TReviewComment, { extra: AxiosInstance }>(
   'offer/postUserReview',
-  async ({ id, comment, rating }, { extra: api }) => await api.post(`${Endpoint.Comments}/${id}`, { comment, rating })
+  async ({ id, comment, rating }, { extra: api }) =>
+    await api.post(`${Endpoint.Comments}/${id}`, { comment, rating })
 );

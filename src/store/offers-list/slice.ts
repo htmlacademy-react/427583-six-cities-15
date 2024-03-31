@@ -1,19 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CITIES, RequestStatus } from '../../common/const';
-import { TCityName, TOffer } from '../../common/types';
+import { CITIES } from '@/common/const';
+import { TCityName, TOffer } from '@/common/types';
+
 import { fetchOffersList } from './thunks';
 
 type TOffersListStore = {
   offersList: TOffer[];
   city: TCityName;
-  status: RequestStatus;
 }
 
 const initialState: TOffersListStore = {
   offersList: [],
-  city: CITIES.Amsterdam.name,
-  status: RequestStatus.Idle,
+  city: CITIES.Paris.name,
 };
 
 const slice = createSlice({
@@ -26,15 +25,8 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOffersList.pending, (state) => {
-        state.status = RequestStatus.Loading;
-      })
       .addCase(fetchOffersList.fulfilled, (state, action) => {
-        state.status = RequestStatus.Success;
         state.offersList = action.payload;
-      })
-      .addCase(fetchOffersList.rejected, (state) => {
-        state.status = RequestStatus.Failed;
       });
   }
 });
