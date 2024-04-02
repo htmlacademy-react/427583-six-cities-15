@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { TOffer, TOfferFull, TUserReview } from '@/common/types';
 
+import { logout } from '../auth/thunks';
 import { updateOfferFavoriteStatus } from '../favorites/thunks';
-import { updateFavorites } from '../offers-list/utils';
+import { resetFavorites, updateFavorites } from '../offers-list/utils';
 import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from './thunks';
 
 type TOfferStore = {
@@ -39,6 +40,12 @@ const slice = createSlice({
         } else {
           state.nearbyOffers = updateFavorites(state.nearbyOffers, payload);
         }
+      })
+      .addCase(logout.fulfilled, (state) => {
+        if (state.offer) {
+          state.offer.isFavorite = false;
+        }
+        state.nearbyOffers = resetFavorites(state.nearbyOffers);
       });
   },
 });
