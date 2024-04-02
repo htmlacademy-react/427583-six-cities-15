@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CITIES, OfferType, RequestStatus } from '@/common/const';
+import { TCityName } from '@/common/types';
 import { getPointsFromOffers } from '@/common/utils';
 import Header from '@/components/header';
 import Loader from '@/components/loader';
@@ -10,13 +11,15 @@ import Rating from '@/components/rating';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectRequestStatus } from '@/store/global/selectors';
+import { selectCity } from '@/store/global/selectors';
+import { setCity } from '@/store/global/slice';
 import { selectNearbyOffers, selectOffer } from '@/store/offer/selectors';
 import { fetchNearbyOffers, fetchOffer } from '@/store/offer/thunks';
-import { selectCity } from '@/store/offers-list/selectors';
 
 import NotFound from '../not-found';
 import InsideGoods from './components/inside-goods';
 import NearPlaces from './components/near-places';
+import OfferBookmarkButton from './components/offer-bookmark-button';
 import OfferGallery from './components/offer-gallery';
 import OfferHost from './components/offer-host';
 import ReviewList from './components/review-list';
@@ -31,8 +34,6 @@ const Offer = () => {
   const selectedCity = useAppSelector(selectCity);
   const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, NEARBY_OFFERS_COUNT);
   const requestStatus = useAppSelector(selectRequestStatus);
-
-  const nearbyPoints = useMemo(() => getPointsFromOffers(nearbyOffers), [nearbyOffers]);
 
   useEffect(() => {
     if (!offerId) {
@@ -50,21 +51,18 @@ const Offer = () => {
   }, [dispatch, offerId]);
 
   useEffect(() => {
-    if (!offer || !nearbyPoints.length || !offerId) {
+    if (!offer) {
       return;
     }
 
-    nearbyPoints.push({
-      id: offerId,
-      latitude: offer.location.latitude,
-      longitude: offer.location.longitude,
-    });
-  }, [offer, nearbyPoints, offerId]);
+    dispatch(setCity(offer.city.name as TCityName));
+  }, [dispatch, offer]);
 
   if (!offer) {
     return [RequestStatus.Idle, RequestStatus.Loading].includes(requestStatus) ? <Loader /> : <NotFound />;
   }
 
+  const nearbyPoints = getPointsFromOffers([...nearbyOffers, offer]);
   const bedroomsString = `${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`;
   const maxAdultsString = `Max ${offer.maxAdults} Adult${offer.maxAdults > 1 ? 's' : ''}`;
 
@@ -85,12 +83,7 @@ const Offer = () => {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <OfferBookmarkButton offer={offer} />
               </div>
               <div className="offer__rating rating">
                 <Rating className="offer__stars" rating={offer.rating} />

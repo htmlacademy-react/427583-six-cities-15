@@ -5,6 +5,9 @@ import { Endpoint } from '@/common/const';
 import { TUser, TUserAuthData } from '@/common/types';
 import { removeToken, saveToken } from '@/services/token';
 
+import { fetchOffersList } from '../offers-list/thunks';
+import { AppDispatch } from '../store.types';
+
 export const checkAuth = createAsyncThunk<TUser, undefined, { extra: AxiosInstance }>(
   'auth/checkAuth',
   async (_, { extra: api }) => {
@@ -24,10 +27,11 @@ export const login = createAsyncThunk<TUser, TUserAuthData, { extra: AxiosInstan
   }
 );
 
-export const logout = createAsyncThunk<void, undefined, { extra: AxiosInstance }>(
+export const logout = createAsyncThunk<void, undefined, { dispatch: AppDispatch; extra: AxiosInstance }>(
   'auth/logout',
-  async (_, { extra: api }) => {
+  async (_, { dispatch, extra: api }) => {
     await api.delete(Endpoint.Logout);
     removeToken();
+    dispatch(fetchOffersList());
   }
 );

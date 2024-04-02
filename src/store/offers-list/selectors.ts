@@ -4,7 +4,7 @@ import { RootState } from '../store.types';
 
 export const selectOffersList = (state: RootState) => state.offersList.offersList;
 
-export const selectCity = (state: RootState) => state.offersList.city;
+const selectCity = (state: RootState) => state.global.city;
 
 export const selectOffersByCity = createSelector(
   [selectOffersList, selectCity],

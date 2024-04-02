@@ -4,20 +4,19 @@ import { memo, useCallback, useState } from 'react';
 import { SortType } from '@/common/const';
 
 type TProps = {
+  sortType: SortType;
   onSortTypeChange: (sortType: SortType) => void;
 }
 
-const OffersSort = ({ onSortTypeChange }: TProps) => {
+const OffersSort = ({ sortType, onSortTypeChange }: TProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentSortType, setCurrentSortType] = useState(SortType.Popular);
 
   const toggleSortList = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
-  const handleSortTypeChange = useCallback((sortType: SortType) => {
-    setCurrentSortType(sortType);
-    onSortTypeChange(sortType);
+  const handleSortTypeChange = useCallback((selectedSort: SortType) => {
+    onSortTypeChange(selectedSort);
     toggleSortList();
   }, [onSortTypeChange, toggleSortList]);
 
@@ -25,7 +24,7 @@ const OffersSort = ({ onSortTypeChange }: TProps) => {
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0} onClick={toggleSortList}>
-        {currentSortType}
+        {sortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -41,7 +40,7 @@ const OffersSort = ({ onSortTypeChange }: TProps) => {
           <li
             className={cn([
               'places__option',
-              currentSortType === item ? 'places__option--active' : ''
+              sortType === item ? 'places__option--active' : ''
             ])}
             key={item}
             tabIndex={0}

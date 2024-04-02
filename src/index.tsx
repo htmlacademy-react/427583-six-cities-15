@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 import App from './app';
+import Loader from './components/loader';
 import store from './store';
 
 
@@ -17,6 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
+      <Loader />
       <App />
     </Provider>
   </React.StrictMode>
