@@ -2,7 +2,9 @@ import cn from 'classnames';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
+import { FavoriteStatus } from '@/common/const';
 import { TOfferType } from '@/common/types';
+import { useFavorite } from '@/hooks/use-favorite';
 
 import Rating from '../rating';
 
@@ -52,6 +54,7 @@ const PlaceCard = ({
   onSelect
 }: TProps) => {
   const linkToRoute = `/offer/${id}`;
+  const status = isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
 
   const handleCardHover = () => {
     if (onSelect) {
@@ -64,6 +67,8 @@ const PlaceCard = ({
       onSelect('');
     }
   };
+
+  const handleFavoriteClick = useFavorite(id, status);
 
   return (
     <article
@@ -94,6 +99,7 @@ const PlaceCard = ({
               isFavorite ? 'place-card__bookmark-button--active' : ''
             ])}
             type="button"
+            onClick={handleFavoriteClick}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

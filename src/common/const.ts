@@ -59,7 +59,6 @@ export enum SortType {
   TopRatedFirst = 'Top rated first',
 }
 
-
 export enum RequestStatus {
   Idle = 'Idle',
   Loading = 'Loading',
@@ -83,3 +82,8 @@ export const OfferType = {
 };
 
 export const MAX_REVIEWS_COUNT = 10;
+
+export enum FavoriteStatus {
+  NotFavorite = 0,
+  Favorite = 1,
+}

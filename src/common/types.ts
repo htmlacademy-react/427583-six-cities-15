@@ -1,3 +1,4 @@
+import { FavoriteStatus } from './const';
 
 export type TLocation = {
   latitude: number;
@@ -94,4 +95,9 @@ export type TRating = {
 export type TReviewComment = {
   comment: string;
   rating?: number;
+}
+
+export type TFavoritesPayload = {
+  offerId: string;
+  status: FavoriteStatus;
 }

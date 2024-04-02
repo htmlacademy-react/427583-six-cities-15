@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CITIES, SortType } from '@/common/const';
 import { TOffer } from '@/common/types';
 import { getPointsFromOffers } from '@/common/utils';
 import useAppSelector from '@/hooks/use-app-selector';
-import { selectCity, selectOffersByCity } from '@/store/offers-list/selectors';
+import { selectCity } from '@/store/global/selectors';
+import { selectOffersByCity } from '@/store/offers-list/selectors';
 
 import Map from '../map';
 import OffersSort from '../offers-sort';
@@ -18,15 +19,20 @@ const CityPlaces = () => {
 
   const [selectedPointId, setSelectedPointId] = useState('');
   const [sortedOffers, setSortedOffers] = useState(offers);
+  const [sortType, setSortType] = useState(SortType.Popular);
 
   const mapPoints = useMemo(() => getPointsFromOffers(offers), [offers]);
+
+  useEffect(() => {
+    setSortedOffers(sortOffersByType(offers, sortType));
+  }, [offers, sortType]);
 
   const handleCardSelect = useCallback((id: string) => {
     setSelectedPointId(id);
   }, []);
 
-  const handleSortTypeChange = (sortType: SortType) => {
-    setSortedOffers(sortOffersByType(offers, sortType));
+  const handleSortTypeChange = (selectedSort: SortType) => {
+    setSortType(selectedSort);
   };
 
   return (
@@ -35,7 +41,10 @@ const CityPlaces = () => {
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
           <b className="places__found">{sortedOffers.length} places to stay in {selectedCity}</b>
-          <OffersSort onSortTypeChange={handleSortTypeChange} />
+          <OffersSort
+            sortType={sortType}
+            onSortTypeChange={handleSortTypeChange}
+          />
           <div className="cities__places-list places__list tabs__content">
             {sortedOffers.map((offer: TOffer) => (
               <PlaceCard

@@ -1,18 +1,16 @@
 import cn from 'classnames';
 import { useCallback, useEffect } from 'react';
 
-import { RequestStatus } from '@/common/const';
 import { TCityName } from '@/common/types';
 import CityPlaces from '@/components/city-places';
 import CityPlacesEmpty from '@/components/city-places-empty';
 import Header from '@/components/header';
-import Loader from '@/components/loader';
 import LocationsTabs from '@/components/locations-tabs';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
-import { selectRequestStatus } from '@/store/global/selectors';
-import { selectCity, selectOffersByCity } from '@/store/offers-list/selectors';
-import { setCity } from '@/store/offers-list/slice';
+import { selectCity } from '@/store/global/selectors';
+import { setCity } from '@/store/global/slice';
+import { selectOffersByCity } from '@/store/offers-list/selectors';
 import { fetchOffersList } from '@/store/offers-list/thunks';
 
 
@@ -20,7 +18,6 @@ const Main = () => {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(selectOffersByCity);
   const currentCity = useAppSelector(selectCity);
-  const loadingStatus = useAppSelector(selectRequestStatus);
 
   useEffect(() => {
     dispatch(fetchOffersList());
@@ -39,11 +36,7 @@ const Main = () => {
   }, [dispatch]);
 
   const renderCityPlaces = () => {
-    if (loadingStatus === RequestStatus.Loading) {
-      return <Loader />;
-    }
-
-    if (loadingStatus === RequestStatus.Failed || !hasOffers) {
+    if (!hasOffers) {
       return <CityPlacesEmpty />;
     }
 
