@@ -9,3 +9,8 @@ export const updateFavorites = (offersList: TOffer[], payload: TOfferFull) => of
   }
   return offer;
 });
+
+export const resetFavorites = (offersList: TOffer[]) => offersList.map((offer) => ({
+  ...offer,
+  isFavorite: false,
+}));

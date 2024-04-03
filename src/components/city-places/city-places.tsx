@@ -12,6 +12,7 @@ import OffersSort from '../offers-sort';
 import PlaceCard from '../place-card';
 import { sortOffersByType } from './utils';
 
+const DEFAULT_SORT = SortType.Popular;
 
 const CityPlaces = () => {
   const offers = useAppSelector(selectOffersByCity);
@@ -19,13 +20,17 @@ const CityPlaces = () => {
 
   const [selectedPointId, setSelectedPointId] = useState('');
   const [sortedOffers, setSortedOffers] = useState(offers);
-  const [sortType, setSortType] = useState(SortType.Popular);
+  const [sortType, setSortType] = useState(DEFAULT_SORT);
 
   const mapPoints = useMemo(() => getPointsFromOffers(offers), [offers]);
 
   useEffect(() => {
     setSortedOffers(sortOffersByType(offers, sortType));
   }, [offers, sortType]);
+
+  useEffect(() => {
+    setSortType(DEFAULT_SORT);
+  }, [selectedCity]);
 
   const handleCardSelect = useCallback((id: string) => {
     setSelectedPointId(id);
