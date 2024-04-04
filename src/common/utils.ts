@@ -1,5 +1,5 @@
 import { CITY_NAMES, MAX_REVIEWS_COUNT } from './const';
-import { TOffer, TPoint, TUserReview } from './types';
+import { TCityName, TOffer, TPoint, TUserReview } from './types';
 
 export const getPointsFromOffers = (offers: TOffer[]) => offers.reduce((acc: TPoint[], { id, location }) => {
   acc.push({
@@ -18,4 +18,4 @@ export const getSortedReviews = (
   reviews: TUserReview[]
 ) => [...reviews].sort(compareDates).slice(0, MAX_REVIEWS_COUNT);
 
-export const getRandomCityName = () => CITY_NAMES[Math.floor(Math.random() * CITY_NAMES.length)];
+export const getRandomCityName = (): TCityName => CITY_NAMES[Math.floor(Math.random() * CITY_NAMES.length)];

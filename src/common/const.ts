@@ -1,4 +1,4 @@
-import { TCities, TRating } from './types';
+import { TCities, TCityName, TRating } from './types';
 
 export enum AppRoute {
   Main = '/',
@@ -52,7 +52,7 @@ export const CITIES: TCities = {
   },
 };
 
-export const CITY_NAMES = Object.keys(CITIES);
+export const CITY_NAMES = Object.keys(CITIES) as TCityName[];
 
 export enum SortType {
   Popular = 'Popular',
