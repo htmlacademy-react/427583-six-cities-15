@@ -26,7 +26,7 @@ const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
                   'tabs__item',
                   selectedCity === city ? 'tabs__item--active' : ''
                 ])}
-                onClick={() => handleCityChange(city as TCityName)}
+                onClick={() => handleCityChange(city)}
               >
                 <span>{city}</span>
               </a>
