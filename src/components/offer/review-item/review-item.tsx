@@ -12,7 +12,6 @@ const ReviewItem = ({ review }: TProps) => {
   const fullDate = dayjs(date).format('YYYY-MM-DD');
   const shortDate = dayjs(date).format('MMMM YYYY');
 
-
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

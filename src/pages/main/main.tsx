@@ -2,17 +2,16 @@ import cn from 'classnames';
 import { useCallback, useEffect } from 'react';
 
 import { TCityName } from '@/common/types';
-import CityPlaces from '@/components/city-places';
-import CityPlacesEmpty from '@/components/city-places-empty';
 import Header from '@/components/header';
-import LocationsTabs from '@/components/locations-tabs';
+import CityPlaces from '@/components/main/city-places';
+import CityPlacesEmpty from '@/components/main/city-places-empty';
+import LocationsTabs from '@/components/main/locations-tabs';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectCity } from '@/store/global/selectors';
 import { setCity } from '@/store/global/slice';
 import { selectOffersByCity } from '@/store/offers-list/selectors';
 import { fetchOffersList } from '@/store/offers-list/thunks';
-
 
 const Main = () => {
   const dispatch = useAppDispatch();

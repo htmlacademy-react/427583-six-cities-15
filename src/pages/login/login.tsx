@@ -1,12 +1,17 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import { AppRoute } from '@/common/const';
 import { TUserAuthData } from '@/common/types';
+import { getRandomCityName } from '@/common/utils';
 import Logo from '@/components/logo';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import { login } from '@/store/auth/thunks';
+import { setCity } from '@/store/global/slice';
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const randomCity = getRandomCityName();
 
   const [loginForm, setLoginForm] = useState<TUserAuthData>({
     email: '',
@@ -25,6 +30,10 @@ const Login = () => {
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(login(loginForm));
+  };
+
+  const handleRandomCityClick = () => {
+    dispatch(setCity(randomCity));
   };
 
   return (
@@ -74,9 +83,13 @@ const Login = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                className="locations__item-link"
+                to={AppRoute.Main}
+                onClick={handleRandomCityClick}
+              >
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

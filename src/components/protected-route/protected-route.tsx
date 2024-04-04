@@ -2,12 +2,10 @@ import type { Location } from 'react-router-dom';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/common/const';
+import { TLocationFrom } from '@/common/types';
 import useAppSelector from '@/hooks/use-app-selector';
+import { getToken } from '@/services/token';
 import { selectUser } from '@/store/auth/selectors';
-
-type TFrom = {
-  from?: Location;
-}
 
 type TProps = {
   isLoginPage?: boolean;
@@ -15,10 +13,11 @@ type TProps = {
 }
 
 const ProtectedRoute = ({ isLoginPage, children }: TProps) => {
-  const location: Location<TFrom> = useLocation() as Location<TFrom>;
+  const location: Location<TLocationFrom> = useLocation() as Location<TLocationFrom>;
   const user = useAppSelector(selectUser);
+  const token = getToken();
 
-  if (isLoginPage && user) {
+  if (token || isLoginPage && user) {
     const from: Location = location.state?.from || { pathname: AppRoute.Main } as Location;
 
     return <Navigate to={from} />;

@@ -7,7 +7,7 @@ type TProps = {
   description: string;
 }
 
-const OfferHost = ({ avatarUrl, name, isPro, description }: TProps) => (
+const Host = ({ avatarUrl, name, isPro, description }: TProps) => (
   <div className="offer__host">
     <h2 className="offer__host-title">Meet the host</h2>
     <div className="offer__host-user user">
@@ -37,6 +37,6 @@ const OfferHost = ({ avatarUrl, name, isPro, description }: TProps) => (
   </div>
 );
 
-const MemoizedOfferHost = memo(OfferHost);
+const MemoizedHost = memo(Host);
 
-export default MemoizedOfferHost;
+export default MemoizedHost;

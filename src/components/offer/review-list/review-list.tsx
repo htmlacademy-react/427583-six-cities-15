@@ -9,7 +9,7 @@ import { selectAuthorizationStatus } from '@/store/auth/selectors';
 import { selectOfferReviews } from '@/store/offer/selectors';
 import { fetchOfferReviews } from '@/store/offer/thunks';
 
-import ReviewForm from '../review-form';
+import OfferReviewForm from '../review-form';
 import ReviewItem from '../review-item';
 
 type TProps = {
@@ -44,7 +44,7 @@ const ReviewList = ({ offerId }: TProps) => {
       )}
 
       {authorizationStatus === AuthorizationStatus.Auth && (
-        <ReviewForm
+        <OfferReviewForm
           offerId={offerId}
           onReviewSend={updateReviews}
         />

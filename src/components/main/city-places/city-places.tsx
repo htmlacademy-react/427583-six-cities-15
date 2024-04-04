@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { CITIES, SortType } from '@/common/const';
+import { CITIES, DEFAULT_SORT, SortType } from '@/common/const';
 import { TOffer } from '@/common/types';
 import { getPointsFromOffers } from '@/common/utils';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectCity } from '@/store/global/selectors';
 import { selectOffersByCity } from '@/store/offers-list/selectors';
 
-import Map from '../map';
+import Map from '../../map';
+import PlaceCard from '../../place-card';
 import OffersSort from '../offers-sort';
-import PlaceCard from '../place-card';
 import { sortOffersByType } from './utils';
-
-const DEFAULT_SORT = SortType.Popular;
 
 const CityPlaces = () => {
   const offers = useAppSelector(selectOffersByCity);

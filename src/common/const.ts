@@ -1,10 +1,10 @@
-import { TCities } from './types';
+import { TCities, TCityName, TRating } from './types';
 
 export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = 'offer/:id'
+  Offer = '/offer/:id'
 }
 
 export enum AuthorizationStatus {
@@ -52,6 +52,8 @@ export const CITIES: TCities = {
   },
 };
 
+export const CITY_NAMES = Object.keys(CITIES) as TCityName[];
+
 export enum SortType {
   Popular = 'Popular',
   PriceLowToHigh = 'Price: low to high',
@@ -87,3 +89,24 @@ export enum FavoriteStatus {
   NotFavorite = 0,
   Favorite = 1,
 }
+
+export const NEARBY_OFFERS_COUNT = 3;
+
+export const MAX_IMAGES_COUNT = 6;
+
+export const ReviewLength = {
+  Min: 50,
+  Max: 300,
+} as const;
+
+export const Rating: TRating = {
+  5: 'perfect',
+  4: 'good',
+  3: 'not bad',
+  2: 'badly',
+  1: 'terribly'
+} as const;
+
+export const DEFAULT_SORT = SortType.Popular;
+
+export const RATINGS = [5, 4, 3, 2, 1];

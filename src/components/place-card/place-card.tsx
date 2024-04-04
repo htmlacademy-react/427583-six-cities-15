@@ -1,32 +1,14 @@
 import cn from 'classnames';
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { generatePath, Link } from 'react-router-dom';
 
-import { FavoriteStatus } from '@/common/const';
+import { AppRoute, FavoriteStatus } from '@/common/const';
 import { TOfferType } from '@/common/types';
 import { useFavorite } from '@/hooks/use-favorite';
 
 import Rating from '../rating';
-
-type TVariant = 'cities' | 'favorites' | 'near-places';
-
-const cardVariant = {
-  cities: {
-    card: 'cities__card',
-    image: 'cities__image-wrapper',
-    info: '',
-  },
-  favorites: {
-    card: 'favorites__card',
-    image: 'favorites__image-wrapper',
-    info: 'favorites__card-info',
-  },
-  ['near-places']: {
-    card: 'near-places__card',
-    image: 'near-places__image-wrapper',
-    info: '',
-  }
-};
+import { cardVariant } from './const';
+import { TPlaceCardVariant } from './types';
 
 type TProps = {
   id: string;
@@ -37,7 +19,7 @@ type TProps = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  variant?: TVariant;
+  variant?: TPlaceCardVariant;
   onSelect?: (title: string) => void;
 }
 
@@ -53,7 +35,7 @@ const PlaceCard = ({
   variant = 'cities',
   onSelect
 }: TProps) => {
-  const linkToRoute = `/offer/${id}`;
+  const linkToRoute = generatePath(AppRoute.Offer, { id });
   const status = isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
 
   const handleCardHover = () => {

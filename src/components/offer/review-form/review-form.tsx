@@ -1,24 +1,11 @@
 import { ChangeEvent, FormEvent, Fragment, useCallback, useState } from 'react';
 
-import { RequestStatus } from '@/common/const';
-import { TRating, TReviewComment } from '@/common/types';
+import { Rating, RATINGS, RequestStatus, ReviewLength } from '@/common/const';
+import { TReviewComment } from '@/common/types';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectRequestStatus } from '@/store/global/selectors';
 import { postUserReview } from '@/store/offer/thunks';
-
-const MIN_REVIEW_LENGTH = 50;
-const MAX_REVIEW_LENGTH = 300;
-
-const RATINGS: TRating = {
-  5: 'perfect',
-  4: 'good',
-  3: 'not bad',
-  2: 'badly',
-  1: 'terribly'
-};
-
-const reversedRatings = Object.keys(RATINGS).reverse();
 
 type TProps = {
   offerId: string;
@@ -31,7 +18,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
 
   const [reviewForm, setReviewForm] = useState<TReviewComment>({
     comment: '',
-    rating: undefined,
+    rating: null,
   });
 
   const clearForm = () => {
@@ -44,7 +31,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const isFormValid = useCallback(() => {
     const { comment, rating } = reviewForm;
 
-    return rating && (comment.length >= MIN_REVIEW_LENGTH && comment.length <= MAX_REVIEW_LENGTH);
+    return rating && (comment.length >= ReviewLength.Min && comment.length <= ReviewLength.Max);
   }, [reviewForm]);
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -81,7 +68,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
     <form className="reviews__form form" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {reversedRatings.map((rating) => (
+        {RATINGS.map((rating) => (
           <Fragment key={rating}>
             <input
               className="form__rating-input visually-hidden"
@@ -95,7 +82,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
             <label
               htmlFor={`${rating}-stars`}
               className="reviews__rating-label form__rating-label"
-              title={RATINGS[rating]}
+              title={Rating[rating]}
             >
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>

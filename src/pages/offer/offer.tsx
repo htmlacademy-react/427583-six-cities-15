@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CITIES, OfferType, RequestStatus } from '@/common/const';
+import { CITIES, NEARBY_OFFERS_COUNT, OfferType, RequestStatus } from '@/common/const';
 import { TCityName } from '@/common/types';
 import { getPointsFromOffers } from '@/common/utils';
 import Header from '@/components/header';
 import Loader from '@/components/loader';
 import Map from '@/components/map';
+import BookmarkButton from '@/components/offer/bookmark-button';
+import Gallery from '@/components/offer/gallery';
+import Host from '@/components/offer/host';
+import InsideGoods from '@/components/offer/inside-goods';
+import NearPlaces from '@/components/offer/near-places';
+import ReviewList from '@/components/offer/review-list';
 import Rating from '@/components/rating';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
@@ -17,14 +23,6 @@ import { selectNearbyOffers, selectOffer } from '@/store/offer/selectors';
 import { fetchNearbyOffers, fetchOffer } from '@/store/offer/thunks';
 
 import NotFound from '../not-found';
-import InsideGoods from './components/inside-goods';
-import NearPlaces from './components/near-places';
-import OfferBookmarkButton from './components/offer-bookmark-button';
-import OfferGallery from './components/offer-gallery';
-import OfferHost from './components/offer-host';
-import ReviewList from './components/review-list';
-
-const NEARBY_OFFERS_COUNT = 3;
 
 const Offer = () => {
   const dispatch = useAppDispatch();
@@ -40,14 +38,8 @@ const Offer = () => {
       return;
     }
 
-    const fetchData = async () => {
-      await Promise.all([
-        dispatch(fetchOffer(offerId)),
-        dispatch(fetchNearbyOffers(offerId)),
-      ]);
-    };
-
-    fetchData();
+    dispatch(fetchOffer(offerId));
+    dispatch(fetchNearbyOffers(offerId));
   }, [dispatch, offerId]);
 
   useEffect(() => {
@@ -71,7 +63,7 @@ const Offer = () => {
       <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferGallery images={offer.images} />
+          <Gallery images={offer.images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {offer.isPremium && (
@@ -83,7 +75,7 @@ const Offer = () => {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <OfferBookmarkButton offer={offer} />
+                <BookmarkButton offer={offer} />
               </div>
               <div className="offer__rating rating">
                 <Rating className="offer__stars" rating={offer.rating} />
@@ -105,7 +97,7 @@ const Offer = () => {
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <InsideGoods goods={offer.goods} />
-              <OfferHost
+              <Host
                 avatarUrl={offer.host.avatarUrl}
                 name={offer.host.name}
                 isPro={offer.host.isPro}
