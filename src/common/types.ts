@@ -1,4 +1,8 @@
+import type { Location } from 'react-router-dom';
+
 import { FavoriteStatus } from './const';
+
+export type Nullable<T> = T | null;
 
 export type TLocation = {
   latitude: number;
@@ -94,10 +98,14 @@ export type TRating = {
 
 export type TReviewComment = {
   comment: string;
-  rating?: number;
+  rating: Nullable<number>;
 }
 
 export type TFavoritesPayload = {
   offerId: string;
   status: FavoriteStatus;
+}
+
+export type TLocationFrom = {
+  from?: Location;
 }

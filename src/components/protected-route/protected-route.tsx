@@ -2,12 +2,9 @@ import type { Location } from 'react-router-dom';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { AppRoute } from '@/common/const';
+import { TLocationFrom } from '@/common/types';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectUser } from '@/store/auth/selectors';
-
-type TFrom = {
-  from?: Location;
-}
 
 type TProps = {
   isLoginPage?: boolean;
@@ -15,7 +12,7 @@ type TProps = {
 }
 
 const ProtectedRoute = ({ isLoginPage, children }: TProps) => {
-  const location: Location<TFrom> = useLocation() as Location<TFrom>;
+  const location: Location<TLocationFrom> = useLocation() as Location<TLocationFrom>;
   const user = useAppSelector(selectUser);
 
   if (isLoginPage && user) {

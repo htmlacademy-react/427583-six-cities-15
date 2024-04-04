@@ -16,7 +16,7 @@ const Header = () => {
   const favoritesCount = useAppSelector(selectFavoritesCount);
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
-  const handleSignOut = (evt: MouseEvent<HTMLAnchorElement>) => {
+  const handleSignOutClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
     dispatch(logout());
   };
@@ -50,7 +50,7 @@ const Header = () => {
           <Link
             className="header__nav-link"
             to={AppRoute.Main}
-            onClick={handleSignOut}
+            onClick={handleSignOutClick}
           >
             <span className="header__signout">Sign out</span>
           </Link>

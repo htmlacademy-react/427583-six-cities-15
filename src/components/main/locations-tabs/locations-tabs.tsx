@@ -1,14 +1,13 @@
 import cn from 'classnames';
 import { memo, useCallback } from 'react';
 
-import { CITIES } from '@/common/const';
+import { CITY_NAMES } from '@/common/const';
 import { TCityName } from '@/common/types';
 
 type TProps = {
   selectedCity: TCityName;
   onCityChange: (city: TCityName) => void;
 }
-
 
 const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
   const handleCityChange = useCallback((city: TCityName) => {
@@ -19,7 +18,7 @@ const LocationsTabs = ({ selectedCity, onCityChange }: TProps) => {
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {Object.keys(CITIES).map((city) => (
+          {CITY_NAMES.map((city) => (
             <li className="locations__item" key={city}>
               <a
                 className={cn([

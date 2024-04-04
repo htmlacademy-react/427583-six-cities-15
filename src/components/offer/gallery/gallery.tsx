@@ -1,12 +1,12 @@
 import { memo } from 'react';
 
-const MAX_IMAGES_COUNT = 6;
+import { MAX_IMAGES_COUNT } from '@/common/const';
 
 type TProps = {
   images: string[];
 }
 
-const OfferGallery = ({ images }: TProps) => (
+const Gallery = ({ images }: TProps) => (
   <div className="offer__gallery-container container">
     <div className="offer__gallery">
       {images.slice(0, MAX_IMAGES_COUNT).map((image) => (
@@ -25,6 +25,6 @@ const OfferGallery = ({ images }: TProps) => (
   </div>
 );
 
-const MemoizedOfferGallery = memo(OfferGallery);
+const MemoizedGallery = memo(Gallery);
 
-export default MemoizedOfferGallery;
+export default MemoizedGallery;

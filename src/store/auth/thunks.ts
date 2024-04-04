@@ -23,7 +23,7 @@ export const login = createAsyncThunk<TUser, TUserAuthData, { dispatch: AppDispa
   async ({ email, password }, { dispatch, extra: api }) => {
     const { data: user } = await api.post<TUser>(Endpoint.Login, { email, password });
 
-    saveToken(user?.token || '');
+    saveToken(user?.token ?? '');
     dispatch(fetchFavoritesList());
 
     return user;

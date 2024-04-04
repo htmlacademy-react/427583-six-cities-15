@@ -8,7 +8,7 @@ type TProps = {
   offer: TOfferFull;
 }
 
-const OfferBookmarkButton = ({ offer }: TProps) => {
+const BookmarkButton = ({ offer }: TProps) => {
   const status = offer.isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
 
   const handleFavoriteClick = useFavorite(offer.id, status);
@@ -31,4 +31,4 @@ const OfferBookmarkButton = ({ offer }: TProps) => {
   );
 };
 
-export default OfferBookmarkButton;
+export default BookmarkButton;
