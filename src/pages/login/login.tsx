@@ -1,8 +1,8 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '@/common/const';
-import { TUserAuthData } from '@/common/types';
+import { TCityName, TUserAuthData } from '@/common/types';
 import { getRandomCityName } from '@/common/utils';
 import Logo from '@/components/logo';
 import useAppDispatch from '@/hooks/use-app-dispatch';
@@ -11,7 +11,7 @@ import { setCity } from '@/store/global/slice';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const randomCity = getRandomCityName();
+  const randomCity = useRef<TCityName>(getRandomCityName());
 
   const [loginForm, setLoginForm] = useState<TUserAuthData>({
     email: '',
@@ -33,7 +33,7 @@ const Login = () => {
   };
 
   const handleRandomCityClick = () => {
-    dispatch(setCity(randomCity));
+    dispatch(setCity(randomCity.current));
   };
 
   return (
@@ -88,7 +88,7 @@ const Login = () => {
                 to={AppRoute.Main}
                 onClick={handleRandomCityClick}
               >
-                <span>{randomCity}</span>
+                <span>{randomCity.current}</span>
               </Link>
             </div>
           </section>

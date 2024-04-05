@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus } from '@/common/const';
-import { TUser } from '@/common/types';
+import { Nullable, TUser } from '@/common/types';
 import { removeToken } from '@/services/token';
 
 import { checkAuth, login, logout } from './thunks';
 
 type TAuthStore = {
   authorizationStatus: AuthorizationStatus;
-  user?: TUser;
+  user: Nullable<TUser>;
 }
 
 const initialState: TAuthStore = {
   authorizationStatus: AuthorizationStatus.Unknown,
-  user: undefined,
+  user: null,
 };
 
 const slice = createSlice({
@@ -23,9 +23,10 @@ const slice = createSlice({
     setAuthorizationStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
       state.authorizationStatus = action.payload;
     },
-    setUser: (state, action: PayloadAction<TUser>) => {
-      state.user = action.payload;
-    },
+    clearAuth: (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.user = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -42,16 +43,16 @@ const slice = createSlice({
       })
       .addCase(checkAuth.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.user = undefined;
+        state.user = null;
         removeToken();
       })
       .addCase(logout.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.user = undefined;
+        state.user = null;
       });
   }
 });
 
-export const { setAuthorizationStatus } = slice.actions;
+export const { setAuthorizationStatus, clearAuth } = slice.actions;
 
 export const { reducer: authReducer } = slice;

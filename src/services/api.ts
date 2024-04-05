@@ -1,22 +1,16 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { toast } from 'react-toastify';
 
-import { getToken } from './token';
+import store from '@/store';
+import { clearAuth } from '@/store/auth/slice';
+
+import { getToken, removeToken } from './token';
 
 type DetailMessageType = {
   type: string;
   message: string;
 }
-
-const StatusCodeMapping: Record<number, boolean> = {
-  [StatusCodes.BAD_REQUEST]: true,
-  [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true,
-  [StatusCodes.SERVICE_UNAVAILABLE]: true
-};
-
-const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
 const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -40,9 +34,12 @@ export const createApi = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
-      if (error.response && shouldDisplayError(error.response)) {
-        const detailMessage = (error.response.data);
-        toast.warn(detailMessage.message ?? error.response.statusText);
+      const detailMessage = error.response?.data?.message ?? error.message;
+      toast.error(detailMessage);
+
+      if (error.response?.status === StatusCodes.UNAUTHORIZED) {
+        store.dispatch(clearAuth());
+        removeToken();
       }
 
       throw error;
