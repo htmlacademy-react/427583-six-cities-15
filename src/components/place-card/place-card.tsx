@@ -38,7 +38,7 @@ const PlaceCard = ({
   const linkToRoute = generatePath(AppRoute.Offer, { id });
   const status = isFavorite ? FavoriteStatus.NotFavorite : FavoriteStatus.Favorite;
 
-  const handleCardHover = () => {
+  const handleMouseEnter = () => {
     if (onSelect) {
       onSelect(id);
     }
@@ -55,7 +55,7 @@ const PlaceCard = ({
   return (
     <article
       className={cn(cardVariant[variant].card, 'place-card')}
-      onMouseEnter={handleCardHover}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {isPremium && (

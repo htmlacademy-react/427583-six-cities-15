@@ -1,13 +1,15 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { AppRoute } from '@/common/const';
 import { TCityName, TUserAuthData } from '@/common/types';
-import { getRandomCityName } from '@/common/utils';
+import { getRandomCityName, validatePassword } from '@/common/utils';
 import Logo from '@/components/logo';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import { login } from '@/store/auth/thunks';
 import { setCity } from '@/store/global/slice';
+
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +31,11 @@ const Login = () => {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    if (!validatePassword(loginForm.password)) {
+      return toast.warn('Пароль должен состоять минимум из одной буквы и цифры');
+    }
+
     dispatch(login(loginForm));
   };
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { CITIES, NEARBY_OFFERS_COUNT, OfferType, RequestStatus } from '@/common/const';
 import { TCityName } from '@/common/types';
-import { getPointsFromOffers } from '@/common/utils';
+import { getPluralString, getPointsFromOffers } from '@/common/utils';
 import Header from '@/components/header';
 import Loader from '@/components/loader';
 import Map from '@/components/map';
@@ -55,8 +55,8 @@ const Offer = () => {
   }
 
   const nearbyPoints = getPointsFromOffers([...nearbyOffers, offer]);
-  const bedroomsString = `${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`;
-  const maxAdultsString = `Max ${offer.maxAdults} Adult${offer.maxAdults > 1 ? 's' : ''}`;
+  const bedroomsString = `${offer.bedrooms} ${getPluralString('Bedroom', offer.bedrooms)}`;
+  const maxAdultsString = `Max ${offer.maxAdults} ${getPluralString('Adult', offer.maxAdults)}`;
 
   return (
     <div className="page">

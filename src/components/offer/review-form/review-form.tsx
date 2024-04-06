@@ -1,20 +1,21 @@
-import { ChangeEvent, FormEvent, Fragment, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, Fragment, useCallback, useEffect, useState } from 'react';
 
 import { Rating, RATINGS, RequestStatus, ReviewLength } from '@/common/const';
 import { TReviewComment } from '@/common/types';
 import useAppDispatch from '@/hooks/use-app-dispatch';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectRequestStatus } from '@/store/global/selectors';
+import { selectShouldClearForm } from '@/store/offer/selectors';
 import { postUserReview } from '@/store/offer/thunks';
 
 type TProps = {
   offerId: string;
-  onReviewSend: () => void;
 }
 
-const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
+const ReviewForm = ({ offerId }: TProps) => {
   const dispatch = useAppDispatch();
   const loadingStatus = useAppSelector(selectRequestStatus);
+  const shouldClearForm = useAppSelector(selectShouldClearForm);
 
   const [reviewForm, setReviewForm] = useState<TReviewComment>({
     comment: '',
@@ -24,9 +25,15 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
   const clearForm = () => {
     setReviewForm({
       comment: '',
-      rating: 0,
+      rating: null,
     });
   };
+
+  useEffect(() => {
+    if (shouldClearForm) {
+      clearForm();
+    }
+  }, [shouldClearForm]);
 
   const isFormValid = useCallback(() => {
     const { comment, rating } = reviewForm;
@@ -54,13 +61,8 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
       id: offerId,
       comment: reviewForm.comment,
       rating: Number(reviewForm.rating),
-    }))
-      .unwrap()
-      .then(() => {
-        onReviewSend();
-        clearForm();
-      });
-  }, [dispatch, isFormValid, offerId, onReviewSend, reviewForm.comment, reviewForm.rating]);
+    }));
+  }, [dispatch, isFormValid, offerId, reviewForm]);
 
   const { comment } = reviewForm;
 
@@ -77,6 +79,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
               id={`${rating}-stars`}
               type="radio"
               checked={Number(rating) === Number(reviewForm.rating)}
+              disabled={loadingStatus === RequestStatus.Loading}
               onChange={handleFieldChange}
             />
             <label
@@ -97,6 +100,7 @@ const ReviewForm = ({ offerId, onReviewSend }: TProps) => {
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
+        disabled={loadingStatus === RequestStatus.Loading}
         onChange={handleFieldChange}
       />
       <div className="reviews__button-wrapper">

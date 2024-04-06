@@ -9,7 +9,7 @@ import { selectAuthorizationStatus } from '@/store/auth/selectors';
 import { selectOfferReviews } from '@/store/offer/selectors';
 import { fetchOfferReviews } from '@/store/offer/thunks';
 
-import OfferReviewForm from '../review-form';
+import ReviewForm from '../review-form';
 import ReviewItem from '../review-item';
 
 type TProps = {
@@ -26,14 +26,10 @@ const ReviewList = ({ offerId }: TProps) => {
     dispatch(fetchOfferReviews(offerId));
   }, [dispatch, offerId]);
 
-  const updateReviews = () => {
-    dispatch(fetchOfferReviews(offerId));
-  };
-
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">
-        Reviews &middot; <span className="reviews__amount">{sortedReviews.length}</span>
+        Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
       </h2>
       {reviews?.length && (
         <ul className="reviews__list">
@@ -44,10 +40,7 @@ const ReviewList = ({ offerId }: TProps) => {
       )}
 
       {authorizationStatus === AuthorizationStatus.Auth && (
-        <OfferReviewForm
-          offerId={offerId}
-          onReviewSend={updateReviews}
-        />
+        <ReviewForm offerId={offerId} />
       )}
     </section>
   );
