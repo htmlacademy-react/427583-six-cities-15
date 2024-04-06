@@ -19,3 +19,6 @@ export const getSortedReviews = (
 ) => [...reviews].sort(compareDates).slice(0, MAX_REVIEWS_COUNT);
 
 export const getRandomCityName = (): TCityName => CITY_NAMES[Math.floor(Math.random() * CITY_NAMES.length)];
+
+export const validatePassword = (password: string): boolean =>
+  /^[A-za-z0-9_]+[A-za-z0-9_]{1,}$/.test(password);
