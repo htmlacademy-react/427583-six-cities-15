@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CITIES, DEFAULT_SORT, SortType } from '@/common/const';
 import { TOffer } from '@/common/types';
-import { getPointsFromOffers } from '@/common/utils';
+import { getPluralString, getPointsFromOffers } from '@/common/utils';
 import useAppSelector from '@/hooks/use-app-selector';
 import { selectCity } from '@/store/global/selectors';
 import { selectOffersByCity } from '@/store/offers-list/selectors';
@@ -43,7 +43,9 @@ const CityPlaces = () => {
       <div className="cities__places-container container">
         <section className="cities__places places">
           <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">{sortedOffers.length} places to stay in {selectedCity}</b>
+          <b className="places__found">
+            {sortedOffers.length} {getPluralString('place', sortedOffers.length)} to stay in {selectedCity}
+          </b>
           <OffersSort
             sortType={sortType}
             onSortTypeChange={handleSortTypeChange}

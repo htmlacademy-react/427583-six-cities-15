@@ -22,3 +22,7 @@ export const getRandomCityName = (): TCityName => CITY_NAMES[Math.floor(Math.ran
 
 export const validatePassword = (password: string): boolean =>
   /^[A-za-z0-9_]+[A-za-z0-9_]{1,}$/.test(password);
+
+export const getPluralString = (word: string, count: number) => count > 1 ? `${word}s` : word;
+
+export const getRatingCSS = (rating: number) => ({ width: `${(Math.round(rating) * 100 / 5)}%` });

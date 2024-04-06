@@ -1,5 +1,6 @@
 import 'leaflet/dist/leaflet.css';
 
+import cn from 'classnames';
 import { LayerGroup, layerGroup, Marker } from 'leaflet';
 import { memo, useEffect, useRef } from 'react';
 
@@ -23,13 +24,14 @@ const Map = ({ city, points, selectedPointId, className }: TProps) => {
   useEffect(() => {
     if (map) {
       map.setView([city.latitude, city.longitude], city.zoom);
-      markersLayer.current.addTo(map);
-      markersLayer.current.clearLayers();
     }
   }, [city, map]);
 
   useEffect(() => {
     if (map) {
+      markersLayer.current.clearLayers();
+      markersLayer.current.addTo(map);
+
       points.forEach((point: TPoint) => {
         const marker = new Marker([point.latitude, point.longitude]);
         const icon = point.id === selectedPointId ? activePin : defaultPin;
@@ -39,10 +41,10 @@ const Map = ({ city, points, selectedPointId, className }: TProps) => {
           .addTo(markersLayer.current);
       });
     }
-  }, [map, points, selectedPointId]);
+  }, [map, points, selectedPointId, city]);
 
   return (
-    <section className={className} ref={mapRef} />
+    <section className={cn([className, 'map'])} ref={mapRef} />
   );
 };
 

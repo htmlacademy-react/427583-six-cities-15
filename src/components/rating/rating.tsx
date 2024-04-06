@@ -1,7 +1,8 @@
 import cn from 'classnames';
 import { memo } from 'react';
 
-import useRating from '@/hooks/use-rating';
+import { getRatingCSS } from '@/common/utils';
+
 
 type TProps = {
   rating: number;
@@ -15,7 +16,7 @@ const Rating = ({ rating, className }: TProps) => (
       'rating__stars'
     ])}
   >
-    <span style={{ width: `${useRating(rating)}%` }} />
+    <span style={getRatingCSS(rating)} />
     <span className="visually-hidden">{rating}</span>
   </div >
 );
