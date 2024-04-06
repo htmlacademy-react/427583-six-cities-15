@@ -16,10 +16,8 @@ export const fetchFavoritesList = createAsyncThunk<TOffer[], void, { extra: Axio
 
 export const updateOfferFavoriteStatus = createAsyncThunk<TOfferFull, TFavoritesPayload, { dispatch: AppDispatch; extra: AxiosInstance }>(
   'favorites/updateOfferFavoriteStatus',
-  async ({ offerId, status }, { dispatch, extra: api }) => {
+  async ({ offerId, status }, { extra: api }) => {
     const response = await api.post<TOfferFull>(`${Endpoint.Favorite}/${offerId}/${status}`);
-    dispatch(fetchFavoritesList());
-
     return response.data;
   }
 );
