@@ -5,18 +5,20 @@ import { TOffer, TOfferFull, TUserReview } from '@/common/types';
 import { logout } from '../auth/thunks';
 import { updateOfferFavoriteStatus } from '../favorites/thunks';
 import { resetFavorites, updateFavorites } from '../offers-list/utils';
-import { fetchNearbyOffers, fetchOffer, fetchOfferReviews } from './thunks';
+import { fetchNearbyOffers, fetchOffer, fetchOfferReviews, postUserReview } from './thunks';
 
 type TOfferStore = {
   offer?: TOfferFull;
   reviews: TUserReview[];
   nearbyOffers: TOffer[];
+  shouldClearForm: boolean;
 }
 
 const initialState: TOfferStore = {
   offer: undefined,
   reviews: [],
   nearbyOffers: [],
+  shouldClearForm: false,
 };
 
 const slice = createSlice({
@@ -46,6 +48,13 @@ const slice = createSlice({
           state.offer.isFavorite = false;
         }
         state.nearbyOffers = resetFavorites(state.nearbyOffers);
+      })
+      .addCase(postUserReview.pending, (state) => {
+        state.shouldClearForm = false;
+      })
+      .addCase(postUserReview.fulfilled, (state, { payload }) => {
+        state.reviews = [payload, ...state.reviews];
+        state.shouldClearForm = true;
       });
   },
 });
